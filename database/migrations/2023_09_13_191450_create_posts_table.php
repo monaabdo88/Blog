@@ -18,6 +18,7 @@ return new class extends Migration
             $table->unsignedBigInteger('category_id');
             $table->enum('status',['0','1'])->default('0');
             $table->timestamps();
+            $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')
             ->onUpdate('cascade')
             ->onDelete('cascade');

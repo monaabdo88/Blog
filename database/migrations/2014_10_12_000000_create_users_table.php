@@ -18,12 +18,14 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('phone');
+            $table->string('phone')->nullable();
             $table->enum('status',['writer','admin','user'])->default('user');
             $table->string('about')->nullable();
             $table->string('avatar')->default('no-imng.png');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+
         });
     }
 
