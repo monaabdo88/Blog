@@ -14,7 +14,7 @@ Route::group(
         Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
             Route::get('/',[MainController::class,'index'])->name('index');
             Route::get('/show_settings',[MainController::class,'show_settings'])->name('settings');
-            Route::put('updateSettings',[MainController::class , 'updateSettings'])->name('updateSettings');
+            Route::post('updateSettings/{settings_id}',[MainController::class , 'updateSettings'])->name('updateSettings');
             Route::resource('/categories',CategoriesController::class);
             Route::resource('/posts',PostsController::class);
             Route::resource('/tags',PostsController::class);

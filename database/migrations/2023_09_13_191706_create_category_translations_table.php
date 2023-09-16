@@ -11,15 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('post_translation', function (Blueprint $table) {
+        Schema::create('category_translations', function (Blueprint $table) {
             $table->id();
             $table->string('title');
-            $table->longText('content');
-            $table->string('small_desc');
+            $table->string('description');
             $table->string('locale')->index();
-            $table->unsignedBigInteger('post_id');
-            $table->unique(['post_id', 'locale']);
-            $table->foreign('post_id')->references('id')->on('posts')
+            $table->unsignedBigInteger('category_id');
+            $table->unique(['category_id', 'locale']);
+            $table->foreign('category_id')->references('id')->on('categories')
             ->onUpdate('cascade')
             ->onDelete('cascade');
         });
@@ -30,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('post_translation');
+        Schema::dropIfExists('category_translations');
     }
 };

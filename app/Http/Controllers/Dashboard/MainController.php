@@ -23,4 +23,24 @@ class MainController extends Controller
         $tags_count = Tag::count();
         return view('dashboard.index',compact('categories_count','posts_count','users_count','tags_count'));
     }
+    /**
+     * show site settings
+     * @return array
+     */
+    public function show_settings()
+    {
+        $settings = Setting::first();
+        return view('dashboard.settings',compact('settings'));
+    }
+    /**
+     * Update Main Settings
+     * @return void
+     */
+    public function updateSettings(Request $request , Setting $setting)
+    {
+        $data = $request->all();
+        Setting::where('id',1)->update($data);
+        session()->flash('success', __('site.added_successfully'));
+        return redirect()->route('dashboard.settings');
+    }
 }

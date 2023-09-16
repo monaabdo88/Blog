@@ -22,6 +22,10 @@ return [
     'confirm_delete' => 'Confirm Delete',
     'yes' => 'Yes',
     'no' => 'No',
+    'facebook'  => 'Facebook',
+    'twitter'   => 'Twitter',
+    'logo'      => 'Logo',
+    'favicon'   => 'FavIcon',
     'login' => 'Login',
     'remember_me' => 'Remember Me',
     'password' => ' Password',
@@ -51,26 +55,11 @@ return [
     'site_status'   => 'Site Status',
     'open'          => 'Open',
     'close'         => 'Close',
-    'ar' => [
-        'name' => 'Name In Arabic',
-        'description' => 'Description In Arabic',
-        'site_name' => 'Site Name In Arabic',
-        'site_keywords'=> 'Site Keywords In Arabic', 
-        'site_desc' => 'Description Site In Arabic', 
-        'site_copyrights' => 'Site Copyrights In Arabic', 
-        'site_about' => 'AboutSite In Arabic',
-        'site_close_msg' => 'Maintance Message In Arabic'
-    ],
-
-    'en' => [
-        'name' => 'Name In English',
-        'description' => 'Description In English',
-        'site_name' => ' Site Name In English',
-        'site_keywords'=> 'Site Keywords In English', 
-        'site_desc' => 'Description Site In English', 
-        'site_copyrights' => 'Site Copyrights In English', 
-        'site_about' => 'About Site In English',
-        'site_close_msg' => 'Maintance Message In English'
-    ],
-
+    'description' => 'Description',
+    'site_name' => 'Site Name',
+    'site_keywords'=> 'Site Keywords', 
+    'site_desc' => 'Description Site', 
+    'site_copyrights' => 'Site Copyrights', 
+    'site_about' => 'AboutSite',
+    'site_close_msg' => 'Maintance Message',
 ];

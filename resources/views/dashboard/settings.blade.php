@@ -13,119 +13,96 @@
     </section>
 
     <section class="content">
-
+        
         <div class="box box-primary">
-
-
-
             <div class="box-body">
                 @include('dashboard.includes.errors')
-                <form class="form-horizontal" method="post" action="{{ route('dashboard.updateSettings') }}" enctype="multipart/form-data">
-                    {{ csrf_field() }}
-                    {{ method_field('put') }}
-
-                    <div class="form-group{{ $errors->has('site_name') ? ' has-error' : '' }}">
-                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                            
-                                <label class="col-md-2 control-label pull-left text-center">@lang('site.' . $localeCode . '.site_name')</label>
-                                <div class="col-md-10">
-                                    <input id="site_name" type="text" name="{{ $localeCode }}[site_name]" class="form-control" value="{{ $settings->{'site_name:'.$localeCode.''} }}">
-                                    <br/>
-                                </div>
-                            
-                            <!---- end site_name--->
-
-                        @endforeach
-                        
-                    </div>
-                    <div class="form-group{{ $errors->has('site_email') ? ' has-error' : '' }}">
-                        <label for="site_email" class="col-md-2 control-label pull-left text-center">{{ __('site.site_email') }}</label>
-
-                        <div class="col-md-10">
-                            <input id="site_email" type="email" class="form-control" name="site_email" value="{{ $settings->site_email }}" autofocus>
-                            <br/>
-                            
-                        </div>
+                @php
+                    $settings_id =1;
+                @endphp
+                <form class="form-horizontal" method="post" action="{{ route('dashboard.updateSettings',$settings_id) }}" enctype="multipart/form-data">
+                    @csrf
+                    <div class="col-md-6 pull-left form-group{{ $errors->has('site_mail') ? ' has-error' : '' }}">
+                        <label>{{ __('site.site_email') }}</label>
+                        <input id="site_mail" type="email" class="form-control" name="site_mail" value="{{ $settings->site_mail }}" autofocus>
                     </div>
                     <!--end site email -->
-                    <div class="form-group{{ $errors->has('site_phone') ? ' has-error' : '' }}">
-                        <label for="site_phone" class="col-md-2 control-label pull-left text-center">{{ __('site.site_phone') }}</label>
 
-                        <div class="col-md-10">
-                            <input id="site_phone" type="text" class="form-control" name="site_phone" value="{{ $settings->site_phone }}" autofocus>
-                            <br/>
-                            
-                        </div>
-                    </div>
-                    <!--end site phone -->
-                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        
+                    <div class="col-md-6 pull-right form-group{{ $errors->has('site_phone') ? ' has-error' : '' }}">
+                        <label>{{ __('site.site_phone') }}</label>
+                        <input id="site_phone" type="text" class="form-control" name="site_phone" value="{{ $settings->site_phone }}" autofocus>
+                    </div><!-- end site phone -->
+
+                    <div class="col-md-6 pull-left form-group{{ $errors->has('facebook') ? ' has-error' : '' }}">
+                        <label>{{ __('site.facebook') }}</label>
+                        <input id="facebook" type="text" class="form-control" name="facebook" value="{{ $settings->facebook }}" autofocus>
+                    </div><!-- end site facebook -->
+                    <div class="col-md-6 pull-right form-group{{ $errors->has('twitter') ? ' has-error' : '' }}">
+                        <label>{{ __('site.twitter') }}</label>
+                        <input id="twitter" type="text" class="form-control" name="twitter" value="{{ $settings->twitter }}" autofocus>
+                    </div><!-- end site twitter -->
+                    <div class="form-group col-md-6 pull-right">
+                        <label>{{ __('site.logo') }}</label>
+                        <input type="file" name="logo" class="form-control" placeholder="Enter Email..">
+                    </div><!-- logo -->
+                    <div class="form-group col-md-6 pull-left">
+                        <label>{{ __('site.favicon') }}</label>
+                        <input type="file" name="favicon" class="form-control" placeholder="{{ __('site.favicon') }}" >
+                    </div><!--fav icon -->
+                    <div class="col-md-12 form-group {{ $errors->has('site_status') ? ' has-error' : '' }}">
+                        <label for="name">{{ __('site.site_status') }}</label>
+                        <select name="status" class="form-control">
+                            <option value="1">{{ __('site.open') }}</option>
+                            <option value="0">{{ __('site.close') }}</option>
+                        </select>
+                           
+                    </div><!-- end site status -->
+
                     
-                        <div class="form-group{{ $errors->has('site_desc') ? ' has-error' : '' }}">
-                            <label for="site_desc" class="col-md-2 control-label pull-left text-center">{{ __('site.'.$localeCode.'.site_desc') }}</label>
+                    <div class="nav-tabs-custom">
+                        <ul class="nav nav-tabs">
+                            @foreach (config('app.languages') as $key => $lang)
+                                <li class="@if ($loop->index == 0) active @endif">
+                                    <a  data-toggle="tab" href="#{{ $key }}" role="tab"
+                                        aria-controls="home" aria-selected="true">{{ $lang }}</a>
+                                </li>
+                            @endforeach          
+                        </ul>
+                        <div class="tab-content">
+                            @foreach (config('app.languages') as $key => $lang)
+                                <div class="tab-pane fade @if ($loop->index == 0) active in @endif"
+                                    id="{{ $key }}" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="form-group mt-3 col-md-12">
+                                        <label>{{ __('site.site_name') }} - {{ $lang }}</label>
+                                        <input type="text" name="{{$key}}[site_name]" class="form-control"
+                                            placeholder="{{ __('site.site_name') }}"   value="{{$settings->translate($key)->site_name}}">
+                                    </div>
 
-                            <div class="col-md-10">
-                                <textarea name="{{ $localeCode }}[site_desc]" class="form-control" id="site_desc" rows="4">{{ $settings->{'site_desc:'.$localeCode.''} }}</textarea>
-                                <br/>
-                                
-                            </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.site_desc') }} - {{ $lang }}</label>
+                                        <textarea name="{{$key}}[site_desc]" class="form-control" rows="4">{{$settings->translate($key)->site_desc}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.site_keywords') }} - {{ $lang }}</label>
+                                        <textarea name="{{$key}}[site_keywords]" class="form-control" rows="4">{{$settings->translate($key)->site_keywords}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.site_copyrights') }} - {{ $lang }}</label>
+                                        <textarea name="{{$key}}[site_copyrights]" class="form-control" rows="4">{{$settings->translate($key)->site_copyrights}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.site_about') }} - {{ $lang }}</label>
+                                        <textarea name="{{$key}}[site_about]" class="form-control" rows="4">{{$settings->translate($key)->site_about}}</textarea>
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.site_close_msg') }} - {{ $lang }}</label>
+                                        <textarea name="{{$key}}[site_close_msg]" class="form-control" rows="4">{{$settings->translate($key)->site_close_msg}}</textarea>
+                                    </div>
+                                </div><!--end tab -->
+                            @endforeach
                         </div>
-                        <!-- end site description-->
-                        <div class="form-group {{ $errors->has('site_keywords') ? ' has-error' : '' }}">
-                            <label for="site_keywords" class="col-md-2 control-label pull-left text-center">{{ __('site.'.$localeCode.'.site_keywords') }}</label>
-
-                            <div class="col-md-10">
-                                <textarea name="{{ $localeCode }}[site_keywords]" class="form-control" id="site_keywords" rows="4">{{ $settings->{'site_keywords:'.$localeCode.''} }}</textarea>
-                                <br/>
-                                
-                            </div>
+                        
                         </div>
-                        <!--end site keywords-->
-                        <div class="form-group {{ $errors->has('site_about') ? ' has-error' : '' }}">
-                            <label for="site_keywords" class="col-md-2 control-label pull-left text-center">{{ __('site.'.$localeCode.'.site_about') }}</label>
-
-                            <div class="col-md-10">
-                                <textarea name="{{ $localeCode }}[site_about]" class="form-control" id="site_about" rows="4">{{ $settings->{'site_about:'.$localeCode.''} }}</textarea>
-                                <br/>
-                                
-                            </div>
-                        </div>
-                        <!--end site about-->
-                    @endforeach
-                    <div class="form-group{{ $errors->has('site_status') ? ' has-error' : '' }}">
-                        <label for="name" class="col-md-2 control-label pull-left text-center">{{ __('site.site_status') }}</label>
-
-                        <div class="col-md-10">
-                            <select name="status" class="form-control">
-                                <option value="1">{{ __('site.open') }}</option>
-                                <option value="0">{{ __('site.close') }}</option>
-                            </select>
-                            <br/>
-                            
-                        </div>
-                    </div>
-                    <!-- end site status -->
-                    @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                        <div class="form-group{{ $errors->has('site_close') ? ' has-error' : '' }}">
-                            <label for="site_close" class="col-md-2 control-label pull-left text-center">{{ __('site.'.$localeCode.'.site_close_msg') }}</label>
-
-                            <div class="col-md-10">
-                                <textarea name="{{ $localeCode }}[site_close_msg]" id="site_close_msg" class="form-control" rows="4">{{ $settings->{'site_close_msg:'.$localeCode.''} }}</textarea>
-                                <br/>
-                                
-                            </div>
-                        </div><!--end site text close -->
-                        <div class="form-group {{ $errors->has('site_copyrights') ? ' has-error' : '' }}">
-                            <label for="site_copyrights" class="col-md-2 control-label pull-left text-center">{{ __('site.'.$localeCode.'.site_copyrights') }}</label>
-
-                            <div class="col-md-10">
-                                <textarea name="{{ $localeCode }}[site_copyrights]" class="form-control" id="site_copyrights" rows="4">{{ $settings->{'site_copyrights:'.$localeCode.''} }}</textarea>
-                                <br/>
-                                
-                            </div>
-                        </div>
-                        <!--end site copyrights-->
-                    @endforeach
                     <div class="form-group">
                         <div class="col-md-12 text-center">
                             <button type="submit" class="btn btn-primary">
@@ -142,4 +119,6 @@
     </section><!-- end of content -->
 
 </div><!-- end of content wrapper -->
+
+
 @endsection
