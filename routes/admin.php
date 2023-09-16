@@ -1,10 +1,10 @@
 <?php 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Dashboard\MainController;
-use App\Http\Controllers\Dashboard\CategoriesController;
-use App\Http\Controllers\Dashboard\PostsController;
-use App\Http\Controllers\Dashboard\TagsController;
-use App\Http\Controllers\Dashboard\UsersController;
+use App\Http\Controllers\Dashboard\CategoryController;
+use App\Http\Controllers\Dashboard\PostController;
+use App\Http\Controllers\Dashboard\TagController;
+use App\Http\Controllers\Dashboard\UserController;
 
 Route::group(
     [
@@ -14,10 +14,10 @@ Route::group(
         Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
             Route::get('/',[MainController::class,'index'])->name('index');
             Route::get('/show_settings',[MainController::class,'show_settings'])->name('settings');
-            Route::post('updateSettings/{settings_id}',[MainController::class , 'updateSettings'])->name('updateSettings');
-            Route::resource('/categories',CategoriesController::class);
-            Route::resource('/posts',PostsController::class);
-            Route::resource('/tags',PostsController::class);
-            Route::resource('/users',PostsController::class);
+            Route::patch('/settings/update/{settings_id}',[MainController::class , 'update'])->name('settings.update');
+            Route::resource('/categories',CategoryController::class);
+            Route::resource('/posts',PostController::class);
+            Route::resource('/tags',TagController::class);
+            Route::resource('/users',UserController::class);
     });
 });
