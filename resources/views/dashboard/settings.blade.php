@@ -20,7 +20,7 @@
                 
                 <form action="{{Route('dashboard.settings.update' , $setting)}}" method="post" enctype="multipart/form-data">
                     @csrf
-                    @method('patch')
+                    @method('put')
 
                     <div class="col-md-6 pull-left form-group{{ $errors->has('site_mail') ? ' has-error' : '' }}">
                         <label>{{ __('site.site_email') }}</label>

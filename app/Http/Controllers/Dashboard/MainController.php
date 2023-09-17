@@ -25,15 +25,7 @@ class MainController extends Controller
         $tags_count = Tag::count();
         return view('dashboard.index',compact('categories_count','posts_count','users_count','tags_count'));
     }
-    /**
-     * show site settings
-     * @return array
-     */
-    public function show_settings()
-    {
-        $setting = Setting::first();
-        return view('dashboard.settings',compact('setting'));
-    }
+    
     /**
      * Update Main Settings
      * @return void
@@ -41,7 +33,7 @@ class MainController extends Controller
     public function update(Request $request , Setting $setting)
     {
        //validate Data
-       $data = [
+       /*$data = [
         'logo'          => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         'favicon'       => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
         'facebook'      => 'nullable|string',
@@ -58,7 +50,7 @@ class MainController extends Controller
             $data[$key . '*.site_about']        = 'nullable|string';
             $data[$key . '*.site_close_msg']    = 'nullable|string';
         }
-        $validatedData = $request->validate($data);
+        $validatedData = $request->validate($data);*/
         //update settings data
         $setting->update($request->except('logo', 'favicon', '_token','_method'));
 
