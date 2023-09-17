@@ -60,27 +60,26 @@ class SettingController extends Controller
             'favicon'       => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
             'facebook'      => 'nullable|string',
             'twitter'       => 'nullable|string',
-            'site_phone'    => 'nullable|string',
-            'site_mail'     => 'nullable|email',
+            'site_phone'    => 'string|min:11|max:14',
+            'site_mail'     => 'email',
             ];
             //validate data for lang
             foreach (config('app.languages') as $key => $value) {
-                $data[$key . '*.site_name']         = 'nullable|string';
+                $data[$key . '*.site_name']         = 'string';
                 $data[$key . '*.site_desc']         = 'nullable|string';
                 $data[$key . '*.site_keywords']     = 'nullable|string';
-                $data[$key . '*.site_copyrights']   = 'nullable|string';
+                $data[$key . '*.site_copyrights']   = 'string';
                 $data[$key . '*.site_about']        = 'nullable|string';
                 $data[$key . '*.site_close_msg']    = 'nullable|string';
             }
             $validatedData = $request->validate($data);
             //update settings data
             $setting->update($request->except('logo', 'favicon', '_token','_method'));
-    
             //upload Site Logo
             if ($request->file('logo')) {
                 $file = $request->file('logo');
                 $filename = Str::uuid() . $file->getClientOriginalName();
-                $file->move(public_path('images'), $filename);
+                $file->move(public_path('uploads/site/'), $filename);
                 $path = 'uploads/site/' . $filename;
                 $setting->update(['logo' => $path]);
             }
@@ -88,7 +87,7 @@ class SettingController extends Controller
             if ($request->file('favicon')) {
                 $file = $request->file('favicon');
                 $filename = Str::uuid() . $file->getClientOriginalName();
-                $file->move(public_path('images'), $filename);
+                $file->move(public_path('uploads/site/'), $filename);
                 $path = 'uploads/site/' . $filename;
                 $setting->update(['favicon' => $path]);
             }

@@ -87,4 +87,5 @@ return [
     'site_copyrights' => 'حقوق الموقع ', 
     'site_about' => 'نبذة عن الموقع ',
     'site_close_msg' => 'رسالة الصيانة ',
+    
 ];

@@ -124,8 +124,6 @@
 
 {{--custom js--}}
 <script src="{{ asset('dashboard/js/custom/image_preview.js') }}"></script>
-<script src="{{ asset('dashboard/js/custom/order.js') }}"></script>
-
 <script>
     $(document).ready(function () {
 
@@ -183,6 +181,5 @@
     });//end of ready
     
 </script>
-@stack('scripts')
 </body>
 </html>

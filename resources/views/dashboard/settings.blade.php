@@ -43,17 +43,23 @@
                     </div><!-- end site twitter -->
                     <div class="form-group col-md-6 pull-right">
                         <label>{{ __('site.logo') }}</label>
-                        <input type="file" name="logo" class="form-control" placeholder="Enter Email..">
+                        <input type="file" name="logo" class="form-control logo-img">
+                        <div class="form-group">
+                            <img src="{{ asset($setting->logo) }}" style="width: 100px" class="img-thumbnail logo-preview" alt="">
+                        </div>
                     </div><!-- logo -->
                     <div class="form-group col-md-6 pull-left">
                         <label>{{ __('site.favicon') }}</label>
-                        <input type="file" name="favicon" class="form-control" placeholder="{{ __('site.favicon') }}" >
+                        <input type="file" name="favicon" class="form-control image">
+                        <div class="form-group">
+                            <img src="{{ asset($setting->favicon) }}" style="width: 100px" class="img-thumbnail image-preview" alt="">
+                        </div>
                     </div><!--fav icon -->
                     <div class="col-md-12 form-group {{ $errors->has('site_status') ? ' has-error' : '' }}">
                         <label for="name">{{ __('site.site_status') }}</label>
                         <select name="site_status" class="form-control">
-                            <option value="1">{{ __('site.open') }}</option>
-                            <option value="0">{{ __('site.close') }}</option>
+                            <option value="1" {{ ($setting->site_status == 1)? 'selected' : '' }}>{{ __('site.open') }}</option>
+                            <option value="0" {{ ($setting->site_status == 0)? 'selected' : '' }}>{{ __('site.close') }}</option>
                         </select>
                            
                     </div><!-- end site status -->
