@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use \Illuminate\Support\Str;
-
+use File;
 class SettingController extends Controller
 {
     /**
@@ -77,6 +77,9 @@ class SettingController extends Controller
             $setting->update($request->except('logo', 'favicon', '_token','_method'));
             //upload Site Logo
             if ($request->file('logo')) {
+                if(File::exists(public_path($setting->logo))) {
+                    File::delete(public_path($setting->logo));
+                }
                 $file = $request->file('logo');
                 $filename = Str::uuid() . $file->getClientOriginalName();
                 $file->move(public_path('uploads/site/'), $filename);
@@ -85,6 +88,9 @@ class SettingController extends Controller
             }
             //upload site favicon
             if ($request->file('favicon')) {
+                if(File::exists(public_path($setting->favicon))) {
+                    File::delete(public_path($setting->favicon));
+                }
                 $file = $request->file('favicon');
                 $filename = Str::uuid() . $file->getClientOriginalName();
                 $file->move(public_path('uploads/site/'), $filename);
