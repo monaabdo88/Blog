@@ -21,7 +21,8 @@ return new class extends Migration
             $table->string('phone')->nullable();
             $table->enum('status',['writer','admin','user'])->default('user');
             $table->string('about')->nullable();
-            $table->string('avatar')->default('no-imng.png');
+            $table->string('avatar')->default('no-img.png');
+            $table->enum('gender',['male','female']);
             $table->rememberToken();
             $table->timestamps();
             $table->softDeletes();

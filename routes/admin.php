@@ -12,12 +12,15 @@ Route::group(
         'prefix' => LaravelLocalization::setLocale(),
         'middleware' => [ 'localeSessionRedirect', 'localizationRedirect', 'localeViewPath' ]
     ], function(){ 
-        Route::prefix('dashboard')->name('dashboard.')->middleware(['auth'])->group(function () {
+        Route::prefix('dashboard')->name('dashboard.')->middleware(['auth','checkLogin'])->group(function () {
             Route::get('/',[MainController::class,'index'])->name('index');
+            Route::get('/users/all',[MainController::class,'getAllUsers'])->name('users.all');
             Route::resource('settings', SettingController::class);
             Route::resource('/categories',CategoryController::class);
             Route::resource('/posts',PostController::class);
             Route::resource('/tags',TagController::class);
-            Route::resource('/users',UserController::class);
+            Route::resource('/users',UserController::class)->except('show');
+            Route::post('/users/delete', [UserController::class, 'destroy'])->name('users.delete');
+
     });
 });

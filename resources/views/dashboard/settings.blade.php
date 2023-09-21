@@ -83,7 +83,14 @@
                                         <input type="text" name="{{$key}}[site_name]" class="form-control"
                                             placeholder="{{ __('site.site_name') }}"   value="{{$setting->translate($key)->site_name}}">
                                     </div>
-
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.address') }} - {{ $lang }}</label>
+                                        <input type="text" name="{{$key}}[address]" class="form-control" value="{{$setting->translate($key)->address}}" />
+                                    </div>
+                                    <div class="form-group col-md-12">
+                                        <label>{{ __('site.address') }} 2 - {{ $lang }}</label>
+                                        <input type="text" name="{{$key}}[sub_address]" class="form-control" value="{{$setting->translate($key)->sub_address}}" />
+                                    </div>
                                     <div class="form-group col-md-12">
                                         <label>{{ __('site.site_desc') }} - {{ $lang }}</label>
                                         <textarea name="{{$key}}[site_desc]" class="form-control" rows="4">{{$setting->translate($key)->site_desc}}</textarea>

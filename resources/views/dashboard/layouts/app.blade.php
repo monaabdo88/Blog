@@ -76,6 +76,7 @@
 
     {{--<!-- iCheck -->--}}
     <link rel="stylesheet" href="{{ asset('dashboard/plugins/icheck/all.css') }}">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/dataTables.bootstrap4.min.css">
 
     {{--html in  ie--}}
     <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -121,6 +122,8 @@
 {{--morris --}}
 <script src="https://cdnjs.cloudflare.com/ajax/libs/raphael/2.1.0/raphael-min.js"></script>
 <script src="{{ asset('dashboard/plugins/morris/morris.min.js') }}"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
 {{--custom js--}}
 <script src="{{ asset('dashboard/js/custom/image_preview.js') }}"></script>
@@ -165,5 +168,7 @@
     });//end of ready
     
 </script>
+@stack('javascripts')
+
 </body>
 </html>

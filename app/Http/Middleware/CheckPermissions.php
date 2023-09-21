@@ -5,6 +5,7 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Illuminate\Support\Facades\Auth;
 
 class CheckPermissions
 {
@@ -15,6 +16,11 @@ class CheckPermissions
      */
     public function handle(Request $request, Closure $next): Response
     {
+        $user_status = ['admin','writer'];
+        if(!in_array(auth()->user()->status , $user_status) ){
+            Auth::logout();
+            return redirect()->route('site.home');
+        }
         return $next($request);
     }
 }

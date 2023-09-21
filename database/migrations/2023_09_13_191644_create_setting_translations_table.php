@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('site_desc');
             $table->string('site_copyrights');
             $table->text('site_about');
+            $table->string('address');
+            $table->string('sub_address');
             $table->string('site_close_msg');
             $table->string('locale')->index();
             $table->unsignedBigInteger('setting_id');

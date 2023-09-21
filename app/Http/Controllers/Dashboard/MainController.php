@@ -10,7 +10,7 @@ use App\Models\User;
 use App\Models\Tag;
 use App\Models\Setting;
 use \Illuminate\Support\Str;
-
+use Yajra\DataTables\DataTables;
 class MainController extends Controller
 {
     /**
@@ -26,52 +26,27 @@ class MainController extends Controller
         return view('dashboard.index',compact('categories_count','posts_count','users_count','tags_count'));
     }
     
-    /**
-     * Update Main Settings
-     * @return void
+   /**
+     * Get all users
+     * @return mixed
      */
-    public function update(Request $request , Setting $setting)
+    public function getAllUsers()
     {
-       //validate Data
-       /*$data = [
-        'logo'          => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-        'favicon'       => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
-        'facebook'      => 'nullable|string',
-        'twitter'       => 'nullable|string',
-        'site_phone'    => 'nullable|string',
-        'site_mail'     => 'nullable|email',
-        ];
-        //validate data for lang
-        foreach (config('app.languages') as $key => $value) {
-            $data[$key . '*.site_name']         = 'nullable|string';
-            $data[$key . '*.site_desc']         = 'nullable|string';
-            $data[$key . '*.site_keywords']     = 'nullable|string';
-            $data[$key . '*.site_copyrights']   = 'nullable|string';
-            $data[$key . '*.site_about']        = 'nullable|string';
-            $data[$key . '*.site_close_msg']    = 'nullable|string';
-        }
-        $validatedData = $request->validate($data);*/
-        //update settings data
-        $setting->update($request->except('logo', 'favicon', '_token','_method'));
-
-        //upload Site Logo
-        if ($request->file('logo')) {
-            $file = $request->file('logo');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $path = 'uploads/site/' . $filename;
-            $setting->update(['logo' => $path]);
-        }
-        //upload site favicon
-        if ($request->file('favicon')) {
-            $file = $request->file('favicon');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('images'), $filename);
-            $path = 'uploads/site/' . $filename;
-            $setting->update(['favicon' => $path]);
-        }
-        //redirect after update to the main route
-        /*session()->flash('success', __('site.updated_successfully'));*/
-        return redirect()->route('dashboard.settings');
+        $data = User::select('*');
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '';
+                $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
+                $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
+                
+                return $btn;
+            })
+            ->addColumn('status', function ($row) {
+                return $row->status == 'user' ? __('site.user') : __('site.' . $row->status);
+            })
+            ->rawColumns(['action', 'status'])
+            ->make(true);
+            
     }
 }
