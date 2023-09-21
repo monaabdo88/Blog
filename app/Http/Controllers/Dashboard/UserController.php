@@ -80,7 +80,10 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        return view('dashboard.users.edit', compact('user'));
+        if($user->id != 1)
+            return view('dashboard.users.edit', compact('user'));
+        else
+            return redirect()->route('dashboard.users.index');
     }
 
     /**
@@ -125,13 +128,18 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        $user = User::findOrFail($request->id);
-        if($user->avatar !='no-img.png')
-        {
-            File::delete(public_path('uploads/users/'.$user->avatar));
-        }   
-        $user->delete();
-        session()->flash('success', __('users.deleted_successfully'));
-        return redirect()->route('dashboard.users.index');
+        if($request->id != 1){
+            $user = User::findOrFail($request->id);
+            if($user->avatar !='no-img.png')
+            {
+                File::delete(public_path('uploads/users/'.$user->avatar));
+            }   
+            $user->delete();
+            session()->flash('success', __('users.deleted_successfully'));
+            return redirect()->route('dashboard.users.index');
+        }
+        else{
+            return redirect()->route('dashboard.users.index');   
+        }
     }
 }
