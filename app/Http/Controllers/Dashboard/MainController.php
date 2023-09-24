@@ -26,28 +26,5 @@ class MainController extends Controller
         return view('dashboard.index',compact('categories_count','posts_count','users_count','tags_count'));
     }
     
-   /**
-     * Get all users
-     * @return mixed
-     */
-    public function getAllUsers()
-    {
-        $data = User::select('*');
-        return Datatables::of($data)
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                $btn = '';
-                if($row->id != 1){
-                    $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
-                    $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-                }
-                return $btn;
-            })
-            ->addColumn('status', function ($row) {
-                return $row->status == 'user' ? __('site.user') : __('site.' . $row->status);
-            })
-            ->rawColumns(['action', 'status'])
-            ->make(true);
-            
-    }
+    
 }

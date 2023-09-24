@@ -23,24 +23,24 @@
 
                     <div class="form-group col-md-6 float-left">
                         <label>{{ __('site.first_name') }}</label>
-                        <input type="text" name="first_name" class="form-control" placeholder="{{ __('site.first_name') }}"
+                        <input type="text" name="first_name" class="form-control" placeholder="{{ __('site.first_name') }}" value="{{old('first_name')}}"
                            >
                     </div>
                     <div class="form-group col-md-6 float-left">
                         <label>{{ __('site.last_name') }}</label>
-                        <input type="text" name="last_name" class="form-control" placeholder="{{ __('site.last_name') }}"
+                        <input type="text" name="last_name" class="form-control" placeholder="{{ __('site.last_name') }}" value="{{old('last_name')}}"
                            >
                     </div>
                     <div class="form-group col-md-6 float-right">
                         <label>{{ __('site.email') }}</label>
                         <input type="text" name="email" class="form-control"
-                            placeholder="{{ __('site.email') }}" >
+                            placeholder="{{ __('site.email') }}" value="{{old('email')}}">
                     </div>
                 
                     <div class="form-group col-md-6 float-right">
                         <label>{{ __('site.phone') }}</label>
                         <input type="text" name="phone" class="form-control"
-                            placeholder="{{ __('site.phone') }}" >
+                            placeholder="{{ __('site.phone') }}" value="{{old('phone')}}">
                     </div>
 
                     <div class="form-group col-md-6 float-left">
@@ -74,7 +74,7 @@
                     </div>
                     <div class="form-group col-md-12">
                         <label>{{ __('site.about') }}</label>
-                        <textarea name="about" class="form-control" rows="4"></textarea>
+                        <textarea name="about" class="form-control" rows="4">{{old('about')}}</textarea>
                     </div>
                     <div class="form-group col-md-12">
                         <label>{{ __('site.image') }}</label>

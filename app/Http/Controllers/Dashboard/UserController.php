@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use \Illuminate\Support\Str;
 use File;
+use Yajra\DataTables\DataTables;
+
 class UserController extends Controller
 {
     /**
@@ -122,7 +124,30 @@ class UserController extends Controller
         return redirect()->route('dashboard.users.index');
             
     }
-
+    /**
+     * Get all users
+     * @return mixed
+     */
+    public function getAllUsers()
+    {
+        $data = User::select('*');
+        return Datatables::of($data)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $btn = '';
+                if($row->id != 1){
+                    $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
+                    $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
+                }
+                return $btn;
+            })
+            ->addColumn('status', function ($row) {
+                return $row->status == 'user' ? __('site.user') : __('site.' . $row->status);
+            })
+            ->rawColumns(['action', 'status'])
+            ->make(true);
+            
+    }
     /**
      * Remove the specified resource from storage.
      */

@@ -14,13 +14,20 @@ Route::group(
     ], function(){ 
         Route::prefix('dashboard')->name('dashboard.')->middleware(['auth','checkLogin'])->group(function () {
             Route::get('/',[MainController::class,'index'])->name('index');
-            Route::get('/users/all',[MainController::class,'getAllUsers'])->name('users.all');
-            Route::resource('settings', SettingController::class);
-            Route::resource('/categories',CategoryController::class);
-            Route::resource('/posts',PostController::class);
-            Route::resource('/tags',TagController::class);
-            Route::resource('/users',UserController::class)->except('show');
+            // Users Routes Control
+            Route::get('/users/all',[UserController::class,'getAllUsers'])->name('users.all');
             Route::post('/users/delete', [UserController::class, 'destroy'])->name('users.delete');
-
+            
+            // Categories Routes Control
+            Route::get('/categories/all',[CategoryController::class,'getAllCats'])->name('categories.all');
+            Route::post('/categories/delete', [CategoryController::class, 'destroy'])->name('categories.delete');
+            
+            Route::resources([
+                'settings'      => SettingController::class,
+                'categories'    => CategoryController::class,
+                'users'         => UserController::class,
+                'posts'         => PostController::class,
+                'tags'          => TagController::class
+            ]);
     });
 });
