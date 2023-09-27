@@ -22,13 +22,14 @@
                 <table class="table table-striped" id="table_id">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Frist Name</th>
-                            <th>Last Name</th>
-                            <th>Phone</th>
-                            <th>Email</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>#</th>
+                            <th>{{ __('site.image') }}</th>
+                            <th>{{ __('site.first_name') }}</th>
+                            <th>{{ __('site.last_name') }}</th>
+                            <th>{{ __('site.phone') }}</th>
+                            <th>{{ __('site.email') }}</th>
+                            <th>{{ __('site.status') }}</th>
+                            <th>{{ __('site.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -87,6 +88,10 @@
                 columns: [{
                         data: 'id',
                         name: 'id'
+                    },
+                    {
+                        data: 'avatar',
+                        name: 'avatar'
                     },
                     {
                         data: 'first_name',

@@ -25,7 +25,10 @@ return [
     'update' => 'تعديل',
     'delete' => 'حذف',
     'search' => 'بحث',
+    'active'    => 'مفعل',
+    'not_active' => 'غير مفعل',
     'show' => 'عرض',
+    'title' => 'العنوان',
     'loading' => 'جاري التحميل',
     'print' => 'طبع',
     'confirm_delete' => 'تاكيد الحذف',
@@ -89,12 +92,12 @@ return [
     'site_status'   => 'حالة الموقع',
     'open'          => 'مفتوح',
     'close'         => 'مغلق',
-    'description' => 'الوصف بالغه العربيه',
+    'description' => 'الوصف',
     'site_name' => 'أسم الموقع ',
     'site_keywords'=> 'الكلمات الدلالية ', 
     'site_desc' => 'وصف الموقع ', 
     'site_copyrights' => 'حقوق الموقع ', 
     'site_about' => 'نبذة عن الموقع ',
     'site_close_msg' => 'رسالة الصيانة ',
-    
+    'main_category' => 'قسم رئيسي'
 ];

@@ -13,5 +13,18 @@ class Category extends Model implements TranslatableContract
     use HasFactory, Translatable, SoftDeletes;
     public $translatedAttributes = ['title', 'description'];
     protected $fillable = ['thumbnail', 'parent_id', 'status'];
+    public function parents()
+    {
+        return $this->belongsTo(Category::class,'parent_id');
+    }
+    
+    public function children()
+    {
+        return $this->hasMany(Category::class,'parent_id');
+    }
 
+    public function posts()
+    {
+       return $this->hasMany(Post::class);
+    }
 }

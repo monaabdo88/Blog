@@ -22,12 +22,13 @@
                 <table class="table table-striped" id="table_id">
                     <thead>
                         <tr>
-                            <th>ID</th>
-                            <th>Thumbnail</th>
-                            <th>Title</th>
-                            <th>Description</th>
-                            <th>Status</th>
-                            <th>Action</th>
+                            <th>#</th>
+                            <th>{{ __('site.image') }}</th>
+                            <th>{{ __('site.title') }}</th>
+                            <th>{{__('site.category')}}</th>
+                            <th>{{ __('site.description') }}</th>
+                            <th>{{ __('site.status') }}</th>
+                            <th>{{ __('site.action') }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -90,6 +91,10 @@
                     {
                         data: 'thumbnail',
                         name: 'thumbnail'
+                    },
+                    {
+                        data: 'parent',
+                        name: 'parent'
                     },
                     {
                         data: 'title',

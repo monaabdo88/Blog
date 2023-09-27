@@ -23,7 +23,8 @@ class CategoryController extends Controller
      */
     public function create()
     {
-        return view('dashboard.categories.create');
+        $categories = Category::whereNull('parent_id')->orWhere('parent_id',0)->get();
+        return view('dashboard.categories.create',compact('categories'));
     }
 
     /**
@@ -31,7 +32,17 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $category =  Category::create($request->except('thumbnail', '_token'));
+        if ($request->file('thumbnail')) {
+            $file = $request->file('thumbnail');
+            $filename = Str::uuid() . $file->getClientOriginalName();
+            $file->move(public_path('uploads/categories'), $filename);
+            $path = 'uploads/categories/' . $filename;
+            $category->update(['thumbnail' => $filename]);
+        }
+        session()->flash('success', __('site.added_successfully'));
+
+        return redirect()->route('dashboard.categories.index');
     }
 
     /**
@@ -47,7 +58,8 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        return view('dashboard.categories.edit',compact('category'));
+        $categories = Category::whereNull('parent_id')->orWhere('parent_id',0)->get();
+        return view('dashboard.categories.edit',compact('category','categories'));
     }
 
     /**
@@ -55,23 +67,55 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-        //
+        $category->update($request->except('thumbnail', '_token','_method'));
+        //update category thumbnail code
+        if ($request->file('thumbnail')) {
+            //delete the prev thumbnail
+            if($category->thumbnail != 'no-thumb.png')
+                File::delete(public_path('uploads/categories/'.$category->thumbnail));
+    
+            //upload & update the new thumbnail
+            $file = $request->file('thumbnail');
+            $filename = Str::uuid() . $file->getClientOriginalName();
+            $file->move(public_path('uploads/categories/'), $filename);
+            
+
+            $category->update(['thumbnail' => $filename]);
+        }
+        session()->flash('success', __('site.updated_successfully'));
+
+        return redirect()->route('dashboard.categories.index');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Category $category)
+    public function destroy(Request $request)
     {
-        //
+        $category = Category::findOrFail($request->id);
+        if (is_numeric($request->id)) {
+            $cat_parent = Category::where('parent_id', $request->id)->first();
+            //delete category thumbnail
+            if($category->thumbnail != 'no-thumb.png' || $cat_parent->thumbnail != 'no-thumb.png')
+            {
+                File::delete(public_path('uploads/categories/'.$category->thumbnail));
+                File::delete(public_path('uploads/categories/'.$cat_parent->thumbnail));
+            }
+            //delete categories parent & childes
+            $cat_parent->delete();
+            $category->delete();
+            
+        }
+        return redirect()->route('dashboard.categories.index');
+
     }
     /**
      * Get all Categories
      * @return mixed
      */
-    public function getAllCategories()
+    public function getAllCats()
     {
-        $data = Category::select('*');
+        $data = Category::select('*')->with('parents');
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
@@ -80,10 +124,20 @@ class CategoryController extends Controller
                 $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
                 return $btn;
             })
-            ->addColumn('status', function ($row) {
-                return $row->status == 'category' ? __('site.category') : __('site.' . $row->status);
+            ->addColumn('parent', function ($row) {
+                return ($row->parent_id ==  0) ? trans('site.main_category') :   $row->parents->translate(app()->getLocale())->title;
             })
-            ->rawColumns(['action', 'status'])
-            ->make(true);  
+            
+            ->addColumn('title', function ($row) {
+                return $row->translate(app()->getLocale())->title;
+            })
+            ->addColumn('thumbnail',function($row){
+                return '<img src="'.asset('uploads/categories/'.$row->thumbnail).'" width="100" class="img-thumbnail img-responsive"/>';                
+            })
+            ->addColumn('status', function ($row) {
+                return $row->status == 0 ? __('site.not_active') : __('site.active');
+            })
+            ->rawColumns(['action', 'status', 'parent','title','thumbnail'])
+            ->make(true); 
     }
 }

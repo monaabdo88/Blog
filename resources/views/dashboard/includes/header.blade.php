@@ -1,7 +1,7 @@
 <header class="main-header">
 
     {{--<!-- Logo -->--}}
-    <a href="{{ asset('dashboard') }}" class="logo">
+    <a href="{{ Route('dashboard.index') }}" class="logo">
         {{--<!-- mini logo for sidebar mini 50x50 pixels -->--}}
         <span class="logo-mini">{{ $setting->site_name }}</span>
         <span class="logo-lg">{{ __('site.dashboard') }}</span>

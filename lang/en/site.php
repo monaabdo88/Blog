@@ -30,6 +30,9 @@ return [
     'print' => 'Print',
     'confirm_delete' => 'Confirm Delete',
     'yes' => 'Yes',
+    'title' => 'Title',
+    'active'    => 'Active',
+    'not_active'    => 'Not Active',
     'no' => 'No',
     'facebook'  => 'Facebook',
     'twitter'   => 'Twitter',
@@ -71,4 +74,5 @@ return [
     'site_copyrights' => 'Site Copyrights', 
     'site_about' => 'AboutSite',
     'site_close_msg' => 'Maintance Message',
+    'main_category' => 'Main Category'
 ];

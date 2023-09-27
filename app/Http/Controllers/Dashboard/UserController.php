@@ -64,7 +64,7 @@ class UserController extends Controller
             'email'         => $request->email,
             'password'      => bcrypt($request->password),
         ]);
-        session()->flash('success', __('users.added_successfully'));
+        session()->flash('success', __('site.added_successfully'));
             
         return redirect()->route('dashboard.users.index');
     }
@@ -120,7 +120,7 @@ class UserController extends Controller
             //$path = 'uploads/users/' . $filename;
             $user->update(['avatar' => $filename]);
         }
-        session()->flash('success', __('users.updated_successfully'));
+        session()->flash('success', __('site.updated_successfully'));
         return redirect()->route('dashboard.users.index');
             
     }
@@ -141,10 +141,13 @@ class UserController extends Controller
                 }
                 return $btn;
             })
+            ->addColumn('avatar',function($row){
+                return '<img src="'.asset('uploads/users/'.$row->avatar).'" width="100" class="img-thumbnail img-responsive"/>';                
+            })
             ->addColumn('status', function ($row) {
                 return $row->status == 'user' ? __('site.user') : __('site.' . $row->status);
             })
-            ->rawColumns(['action', 'status'])
+            ->rawColumns(['action', 'avatar','status'])
             ->make(true);
             
     }
@@ -160,7 +163,7 @@ class UserController extends Controller
                 File::delete(public_path('uploads/users/'.$user->avatar));
             }   
             $user->delete();
-            session()->flash('success', __('users.deleted_successfully'));
+            session()->flash('success', __('site.deleted_successfully'));
             return redirect()->route('dashboard.users.index');
         }
         else{
