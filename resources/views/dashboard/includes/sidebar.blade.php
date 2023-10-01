@@ -14,11 +14,15 @@
 
         <ul class="sidebar-menu" data-widget="tree">
             <li class="{{ active_page('') }}"><a href="{{ route('dashboard.index') }}"><i class="fa fa-th"></i><span>{{ __('site.dashboard') }}</span></a></li>
-            <li class="{{ active_page('settings') }}"><a href="{{ route('dashboard.settings.index') }}"><i class="fa fa-th"></i><span>{{ __('site.site_settings') }}</span></a></li>
-            <li class="{{ active_page('categories') }}"><a href="{{ route('dashboard.categories.index') }}"><i class="fa fa-th"></i><span>{{ __('site.categories') }}</span></a></li>
-            <li class="{{ active_page('tags') }}"><a href="{{ route('dashboard.tags.index') }}"><i class="fa fa-th"></i><span>{{ __('site.tags') }}</span></a></li>
+            @can('view', $setting)
+                <li class="{{ active_page('settings') }}"><a href="{{ route('dashboard.settings.index') }}"><i class="fa fa-th"></i><span>{{ __('site.site_settings') }}</span></a></li>
+            @endcan
+            @can('view', $setting)
+                <li class="{{ active_page('categories') }}"><a href="{{ route('dashboard.categories.index') }}"><i class="fa fa-th"></i><span>{{ __('site.categories') }}</span></a></li>
+            @endcan
             <li class="{{ active_page('posts') }}"><a href="{{ route('dashboard.posts.index') }}"><i class="fa fa-th"></i><span>{{ __('site.posts') }}</span></a></li>
             <li class="{{ active_page('users') }}"><a href="{{ route('dashboard.users.index') }}"><i class="fa fa-th"></i><span>{{ __('site.users') }}</span></a></li>
+            
         </ul>
 
     </section>

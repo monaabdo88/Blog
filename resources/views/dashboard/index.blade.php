@@ -61,20 +61,7 @@
                     </div>
                 </div>
 
-                {{----Tags----}}
-                <div class="col-lg-3 col-xs-6">
-                    <div class="small-box bg-yellow">
-                        <div class="inner">
-                            <h3>{{$tags_count}}</h3>
-
-                            <p>@lang('site.tags')</p>
-                        </div>
-                        <div class="icon">
-                            <i class="fa fa-users"></i>
-                        </div>
-                        <a href="{{ route('dashboard.tags.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
-                    </div>
-                </div>
+                
 
             </div><!-- end of row -->
 

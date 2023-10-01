@@ -125,9 +125,20 @@
 <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 <script src="https://cdn.datatables.net/1.11.5/js/dataTables.bootstrap4.min.js"></script>
 
-{{--custom js--}}
+{{--preview image js--}}
 <script src="{{ asset('dashboard/js/custom/image_preview.js') }}"></script>
-<script>
+{{-- ckeditor code --}}
+<script src="https://cdn.ckeditor.com/ckeditor5/34.0.0/classic/ckeditor.js"></script>
+    <script>
+        var allEditors = document.querySelectorAll('#editor');
+        for (var i = 0; i < allEditors.length; ++i) {
+            ClassicEditor.create(allEditors[i]);
+        }
+
+        $(document).ready(function() {
+            $('.js-example-basic-multiple').select2();
+        });
+    
     $(document).ready(function () {
 
         $('.sidebar-menu').tree();

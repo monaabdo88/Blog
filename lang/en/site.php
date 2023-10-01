@@ -74,5 +74,8 @@ return [
     'site_copyrights' => 'Site Copyrights', 
     'site_about' => 'AboutSite',
     'site_close_msg' => 'Maintance Message',
-    'main_category' => 'Main Category'
+    'main_category' => 'Main Category',
+    'post'      => 'Post',
+    'content'   => 'Content',
+    'author'    => 'Author'
 ];

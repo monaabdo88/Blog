@@ -99,5 +99,8 @@ return [
     'site_copyrights' => 'حقوق الموقع ', 
     'site_about' => 'نبذة عن الموقع ',
     'site_close_msg' => 'رسالة الصيانة ',
-    'main_category' => 'قسم رئيسي'
+    'main_category' => 'قسم رئيسي',
+    'post'      => 'مقالة',
+    'content'   => 'المحتوى',
+    'author'    => 'الكاتب'
 ];

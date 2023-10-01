@@ -7,14 +7,23 @@ use Illuminate\Http\Request;
 use \Illuminate\Support\Str;
 use File;
 use Yajra\DataTables\DataTables;
-
+use App\Http\Trait\UploadImage;
+use App\Models\Setting;
 class CategoryController extends Controller
 {
+    use UploadImage;
+    protected $setting;
+    public function __construct(Setting $setting)
+    {
+        $this->setting = $setting;
+    }
+
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
+        $this->authorize('viewAny', $this->setting);
         return view('dashboard.categories.index');
     }
 
@@ -23,6 +32,7 @@ class CategoryController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', $this->setting);
         $categories = Category::whereNull('parent_id')->orWhere('parent_id',0)->get();
         return view('dashboard.categories.create',compact('categories'));
     }
@@ -32,12 +42,10 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
+        $this->authorize('create', $this->setting);
         $category =  Category::create($request->except('thumbnail', '_token'));
         if ($request->file('thumbnail')) {
-            $file = $request->file('thumbnail');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('uploads/categories'), $filename);
-            $path = 'uploads/categories/' . $filename;
+            $filename = $this->upload($request->file('thumbnail'),'categories');
             $category->update(['thumbnail' => $filename]);
         }
         session()->flash('success', __('site.added_successfully'));
@@ -58,6 +66,7 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
+        $this->authorize('update', $this->setting);
         $categories = Category::whereNull('parent_id')->orWhere('parent_id',0)->get();
         return view('dashboard.categories.edit',compact('category','categories'));
     }
@@ -67,6 +76,7 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
+        $this->authorize('update', $this->setting);
         $category->update($request->except('thumbnail', '_token','_method'));
         //update category thumbnail code
         if ($request->file('thumbnail')) {
@@ -75,11 +85,7 @@ class CategoryController extends Controller
                 File::delete(public_path('uploads/categories/'.$category->thumbnail));
     
             //upload & update the new thumbnail
-            $file = $request->file('thumbnail');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('uploads/categories/'), $filename);
-            
-
+            $filename = $this->upload($request->file('thumbnail'),'categories');
             $category->update(['thumbnail' => $filename]);
         }
         session()->flash('success', __('site.updated_successfully'));
@@ -92,20 +98,19 @@ class CategoryController extends Controller
      */
     public function destroy(Request $request)
     {
+        $this->authorize('delete', $this->setting);
         $category = Category::findOrFail($request->id);
         if (is_numeric($request->id)) {
-            $cat_parent = Category::where('parent_id', $request->id)->first();
             //delete category thumbnail
-            if($category->thumbnail != 'no-thumb.png' || $cat_parent->thumbnail != 'no-thumb.png')
-            {
+            if($category->thumbnail != 'no-thumb.png')
                 File::delete(public_path('uploads/categories/'.$category->thumbnail));
-                File::delete(public_path('uploads/categories/'.$cat_parent->thumbnail));
-            }
             //delete categories parent & childes
-            $cat_parent->delete();
-            $category->delete();
+            Category::where('parent_id', $request->id)->delete();
+            Category::where('id', $request->id)->delete();
             
         }
+        session()->flash('success', __('site.deleted_successfully'));
+            
         return redirect()->route('dashboard.categories.index');
 
     }
@@ -120,9 +125,13 @@ class CategoryController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '';
-                $btn .= '<a href="' . Route('dashboard.categories.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
-                $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
-                return $btn;
+                if (auth()->user()->can('update', $this->setting)) {
+                    $btn .= '<a href="' . Route('dashboard.categories.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
+                }
+                if(auth()->user()->can('delete', $this->setting)){
+                    $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
+                    return $btn;
+                }
             })
             ->addColumn('parent', function ($row) {
                 return ($row->parent_id ==  0) ? trans('site.main_category') :   $row->parents->translate(app()->getLocale())->title;

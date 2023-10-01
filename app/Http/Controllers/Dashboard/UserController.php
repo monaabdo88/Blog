@@ -8,12 +8,18 @@ use App\Models\User;
 use \Illuminate\Support\Str;
 use File;
 use Yajra\DataTables\DataTables;
-
+use App\Http\Trait\UploadImage;
 class UserController extends Controller
 {
+    use UploadImage;
     /**
      * Display a listing of the resource.
      */
+    protected $user;
+    public function __construct(User $user)
+    {
+        $this->user = $user;
+    }
     public function index()
     {
         
@@ -24,6 +30,7 @@ class UserController extends Controller
      */
     public function create()
     {
+        $this->authorize('create', $this->user);
         return view('dashboard.users.create');
     }
 
@@ -32,7 +39,7 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //$this->authorize('update', $this->user);
+        $this->authorize('create', $this->user);
         $data = [
             'first_name'    => 'required|string',
             'last_name'     => 'required|string',
@@ -44,11 +51,7 @@ class UserController extends Controller
         $validatedData = $request->validate($data);
         /**upload avatar */
         if ($request->file('avatar')) {
-            
-            $file = $request->file('avatar');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('uploads/users/'), $filename);
-            //$path = 'uploads/users/' . $filename;
+            $filename = $this->upload($request->file('avatar'),'users');
             
         }else{
             $filename = 'no-img.png';
@@ -82,10 +85,9 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        if($user->id != 1)
-            return view('dashboard.users.edit', compact('user'));
-        else
-            return redirect()->route('dashboard.users.index');
+        $this->authorize('update', $this->user);
+        return view('dashboard.users.edit', compact('user'));
+        
     }
 
     /**
@@ -93,6 +95,7 @@ class UserController extends Controller
      */
     public function update(Request $request, User $user)
     {
+        $this->authorize('update', $this->user);
         $data = [
             'first_name'    => 'required|string',
             'last_name'     => 'required|string',
@@ -114,10 +117,7 @@ class UserController extends Controller
             if(File::exists(public_path('uploads/users/'.$user->avatar)) && $user->avatar !='no-img.png') {
                 File::delete(public_path('uploads/users/'.$user->avatar));
             }
-            $file = $request->file('avatar');
-            $filename = Str::uuid() . $file->getClientOriginalName();
-            $file->move(public_path('uploads/users/'), $filename);
-            //$path = 'uploads/users/' . $filename;
+            $filename = $this->upload($request->file('avatar'),'users');
             $user->update(['avatar' => $filename]);
         }
         session()->flash('success', __('site.updated_successfully'));
@@ -130,13 +130,19 @@ class UserController extends Controller
      */
     public function getAllUsers()
     {
-        $data = User::select('*');
+        if (auth()->user()->can('viewAny', $this->user)) {
+            $data = User::select('*');
+        }else{
+            $data = User::where('id' , auth()->user()->id);
+        }
         return Datatables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 $btn = '';
-                if($row->id != 1){
+                if (auth()->user()->can('update', $row)) {
                     $btn .= '<a href="' . Route('dashboard.users.edit', $row->id) . '"  class="edit btn btn-success btn-sm" ><i class="fa fa-edit"></i></a> ';
+                }
+                if (auth()->user()->can('delete', $row)) {        
                     $btn .= '<a id="deleteBtn" data-id="' . $row->id . '" class="edit btn btn-danger btn-sm"  data-toggle="modal" data-target="#deletemodal"><i class="fa fa-trash"></i></a>';
                 }
                 return $btn;
@@ -156,7 +162,7 @@ class UserController extends Controller
      */
     public function destroy(Request $request)
     {
-        if($request->id != 1){
+        $this->authorize('delete', $this->user);
             $user = User::findOrFail($request->id);
             if($user->avatar !='no-img.png')
             {
@@ -165,9 +171,6 @@ class UserController extends Controller
             $user->delete();
             session()->flash('success', __('site.deleted_successfully'));
             return redirect()->route('dashboard.users.index');
-        }
-        else{
-            return redirect()->route('dashboard.users.index');   
-        }
+        
     }
 }
