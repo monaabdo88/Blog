@@ -102,5 +102,6 @@ return [
     'main_category' => 'قسم رئيسي',
     'post'      => 'مقالة',
     'content'   => 'المحتوى',
-    'author'    => 'الكاتب'
+    'author'    => 'الكاتب',
+    'admins'    => 'المشرفين'
 ];

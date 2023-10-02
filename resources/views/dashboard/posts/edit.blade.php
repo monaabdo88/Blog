@@ -31,15 +31,7 @@
                         </select>
                            
                     </div><!-- end category -->
-                    <div class="col-md-12 form-group {{ $errors->has('user_id') ? ' has-error' : '' }}">
-                        <label for="name">{{ __('site.author') }}</label>
-                        <select name="user_id" class="form-control">
-                            @foreach ($users as $user)
-                                <option @selected($post->user_id == $user->id) value="{{$user->id}}">{{$user->first_name}} {{ $user->last_name }}</option>
-                            @endforeach
-                        </select>
-                           
-                    </div><!-- end category -->
+                    
                     <div class="col-md-12 form-group {{ $errors->has('site_status') ? ' has-error' : '' }}">
                         <label for="name">{{ __('site.status') }}</label>
                         <select name="status" class="form-control">
@@ -48,6 +40,8 @@
                         </select>
                            
                     </div><!-- end site status -->
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"/>
+                    
                     <div class="form-group col-md-12">
                         <label>{{ __('site.image') }}</label>
                         <input type="file" name="main_img" class="form-control logo-img">

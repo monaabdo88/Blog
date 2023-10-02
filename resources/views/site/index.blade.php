@@ -1,162 +1,109 @@
 @extends('site.layouts.app')
-@section('content')
-    <br/><br/><br/>
-    <div class="container up-container">
-        <div class="row">
-            <div class="col-lg-2"></div>
-            <div class="col-lg-8">
-                <article class="hentry post post-standard has-post-thumbnail sticky">
 
-                    <div class="post-thumb">
-                        <img src="{{--asset('uploads/'.first_post()->featured)--}}" alt="{{--first_post()->name--}}" style="height: 388px">
-                        <div class="overlay"></div>
-                        <a href="{{--asset('uploads/'.first_post()->featured)--}}" class="link-image js-zoom-image">
-                            <i class="seoicon-zoom"></i>
-                        </a>
-                        <a href="{{--url('/post/'.first_post()->slug)--}}" class="link-post">
-                            <i class="seoicon-link-bold"></i>
-                        </a>
-                    </div>
-
-                    <div class="post__content">
-
-                        <div class="post__content-info">
-
-                            <h2 class="post__title entry-title ">
-                                <a href="{{--url('/post/'.first_post()->slug)--}}">{{--first_post()->title--}}</a>
-                            </h2>
-
-                            <div class="post-additional-info">
-
-                                        <span class="post__date">
-
-                                            <i class="seoicon-clock"></i>
-
-                                            <time class="published" datetime="2016-04-17 12:00:00">
-                                               {{--first_post()->created_at->diffForHumans()--}}
-                                            </time>
-
-                                        </span>
-
-                                <span class="category">
-                                            <i class="seoicon-tags"></i>
-                                            <a href="{{--url('/cats/'.first_post()->category->id)--}}">{{--first_post()->category->name--}}</a>
-                                        </span>
-
-                                <span class="post__comments">
-                                            <a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i></a>
-                                            6
-                                        </span>
-
-                            </div>
-                        </div>
-                    </div>
-
-                </article>
-            </div>
-            <div class="col-lg-2"></div>
-        </div>
-
-        <div class="row">
-            {{-- @foreach(get_posts_index() as $post) --}}
-                <div class="col-lg-6">
-                    <article class="hentry post post-standard has-post-thumbnail sticky">
-
-                        <div class="post-thumb">
-                            <img src="{{--asset('uploads/'.$post->featured)--}}" alt="{{--$post->title--}}" style="height: 310px">
-                            <div class="overlay"></div>
-                            <a href="{{--asset('uploads/'.$post->featured)--}}" class="link-image js-zoom-image">
-                                <i class="seoicon-zoom"></i>
-                            </a>
-                            <a href="{{--url('/post/'.$post->slug)--}}" class="link-post">
-                                <i class="seoicon-link-bold"></i>
-                            </a>
-                        </div>
-
-                        <div class="post__content">
-
-                            <div class="post__content-info">
-
-                                <h2 class="post__title entry-title ">
-                                    <a href="{{--url('/post/'.$post->slug)--}}">{{--$post->title--}}</a>
-                                </h2>
-
-                                <div class="post-additional-info">
-
-                                        <span class="post__date">
-
-                                            <i class="seoicon-clock"></i>
-
-                                            <time class="published" datetime="2016-04-17 12:00:00">
-                                                {{--$post->created_at->diffForHumans()--}}
-                                            </time>
-
-                                        </span>
-
-                                    <span class="category">
-                                            <i class="seoicon-tags"></i>
-                                            <a href="{{--url('/cats/'.$post->category->id)--}}">{{--$post->category->name--}}</a>
-                                        </span>
-
-                                    <span class="post__comments">
-                                            <a href="#"><i class="fa fa-comment-o" aria-hidden="true"></i></a>
-                                            6
-                                        </span>
-
-                                </div>
-                            </div>
-                        </div>
-
-                    </article>
+@section('body')
+ <!-- Top News Slider Start -->
+ <div class="container-fluid py-3">
+    <div class="container">
+        <div class="owl-carousel owl-carousel-2 carousel-item-3 position-relative">
+            @foreach ($lastFivePosts as $post)
+            <div class="d-flex">
+                <img src="{{asset('uploads/posts/'.$post->main_img)}}" style="width: 80px; height: 80px; object-fit: cover;">
+                <div class="d-flex align-items-center bg-light px-3" style="height: 80px;">
+                    <a class="text-secondary font-weight-semi-bold" href="">{{$post->title}}</a>
                 </div>
-
-                {{-- @endforeach --}}
-
+            </div>
+            @endforeach
         </div>
     </div>
+</div>
+<!-- Top News Slider End -->
 
 
-    <div class="container-fluid">
-        <div class="row medium-padding120 bg-border-color">
-            <div class="container">
-                {{-- @foreach(get_cats(3) as $cat) --}}
-                    <div class="col-lg-12">
-                        <div class="offers">
-                            <div class="row">
-                                <div class="col-lg-8 col-md-12 col-sm-12 col-xs-12">
-                                    <div class="heading">
-                                        <h4 class="h1 heading-title">{{--$cat->name--}}</h4>
-                                        <div class="heading-line">
-                                            <span class="short-line"></span>
-                                            <span class="long-line"></span>
-                                        </div>
-                                    </div>
-                                </div>
+<!-- Main News Slider Start -->
+<div class="container-fluid py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="owl-carousel owl-carousel-2 carousel-item-1 position-relative mb-3 mb-lg-0">
+                    @foreach ($lastFivePosts as $post)
+                    <div class="position-relative overflow-hidden" style="height: 435px;">
+                        <img class="img-fluid h-100" src="{{asset('uploads/posts/'.$post->main_img)}}" style="object-fit: cover;">
+                        <div class="overlay">
+                            <div class="mb-1">
+                                <a class="text-white" href="{{Route('category',$post->category->id)}}">{{$post->category->title}}</a>
+                                <span class="px-2 text-white">/</span>
+                                <a class="text-white" href="">{{$post->created_at->format('Y-m-d')}}</a>
                             </div>
-                            <div class="row">
-                                <div class="case-item-wrap">
-                                    {{-- @foreach($cat->posts()->where('status',1)->take(3)->get() as $post) --}}
-                                        <div class="col-lg-4 col-md-4 col-sm-6 col-xs-12">
-                                            <div class="case-item">
-                                                <div class="case-item__thumb">
-                                                    <img src="{{--asset('uploads/'.$post->featured)--}}" alt="{{--$post->title--}}" style="height: 250px">
-                                                </div>
-                                                <h6 class="case-item__title"><a href="{{--url('/post/'.$post->slug)--}}">{{--$post->title--}}</a></h6>
-                                            </div>
-                                        </div>
-                                        {{-- @endforeach --}}
-                                  </div>
-                            </div>
+                            <a class="h2 m-0 text-white font-weight-bold" href="{{Route('post',$post->id)}}">{{$post->title}}</a>
                         </div>
-                        <div class="padded-50"></div>
-
                     </div>
-                {{-- @endforeach --}}
-
+                   @endforeach
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
+                    <h3 class="m-0">{{ __('site.categories') }}</h3>
+                    <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                </div>
+                @foreach ($categories as $category)
+                <div class="position-relative overflow-hidden mb-3" style="height: 80px;">
+                    <img class="img-fluid w-100 h-100" src="{{asset('uploads/categories/'.$category->thumbnail)}}" style="object-fit: cover;">
+                    <a href="{{Route('category',$category->id)}}" class="overlay align-items-center justify-content-center h4 m-0 text-white text-decoration-none">
+                       {{$category->title}}
+                    </a>
+                </div>
+                @endforeach
+               
             </div>
         </div>
     </div>
+</div>
+<!-- Main News Slider End -->
 
-    <!-- Subscribe Form -->
+
+
+
+
+<!-- Category News Slider Start -->
+<div class="container-fluid">
+    <div class="container">
+        <div class="row">
+            @foreach ($categories_with_posts as $category)
+                
+            @if (count($category->posts)>0)
+                
+            
+            <div class="col-lg-6 py-3">
+                <div class="bg-light py-2 px-4 mb-3">
+                    <h3 class="m-0">{{$category->title}}</h3>
+                </div>
+                <div class="owl-carousel owl-carousel-3 carousel-item-2 position-relative">
+                    @foreach ($category->posts as $post)
+                        
+                   
+                    <div class="position-relative">
+                        <img class="img-fluid w-100" src="{{asset('uploads/posts/'.$post->main_img)}}" style="object-fit: cover;">
+                        <div class="overlay position-relative bg-light">
+                            <div class="mb-2" style="font-size: 13px;">
+                                <a href="{{Route('category',$category->id)}}">{{$category->title}}</a>
+                                <span class="px-1">/</span>
+                                <span>{{$post->created_at->format('Y, M-d')}}</span>
+                            </div>
+                            <a class="h4 m-0" href="{{Route('post',$post->id)}}">{{$post->title}}</a>
+                        </div>
+                    </div>
+                    @endforeach
+                  
+                </div>
+            </div>
+            @endif
+            @endforeach
+           
+        </div>
+    </div>
+</div>
+</div>
+<!-- Category News Slider End -->
+
+    
 @endsection
-

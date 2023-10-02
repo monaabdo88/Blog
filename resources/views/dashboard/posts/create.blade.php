@@ -31,15 +31,7 @@
                         </select>
                            
                     </div><!-- end category -->
-                    <div class="col-md-12 form-group {{ $errors->has('user_id') ? ' has-error' : '' }}">
-                        <label for="name">{{ __('site.author') }}</label>
-                        <select name="user_id" class="form-control">
-                            @foreach ($users as $user)
-                                <option value="{{$user->id}}">{{$user->first_name}} {{ $user->last_name }}</option>
-                            @endforeach
-                        </select>
-                           
-                    </div><!-- end category -->
+                    <input type="hidden" name="user_id" value="{{ auth()->user()->id }}"/>
                     <div class="col-md-12 form-group {{ $errors->has('site_status') ? ' has-error' : '' }}">
                         <label for="name">{{ __('site.status') }}</label>
                         <select name="status" class="form-control">

@@ -30,7 +30,6 @@ class PostController extends Controller
      */
     public function create()
     {
-        
         $categories = Category::all();
         $users = User::all();
         if (count($categories)>0) {
@@ -45,6 +44,19 @@ class PostController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create' , $this->postmodel);
+        $data = 
+        [
+            'main_img' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ];
+        //validate data for lang
+        foreach (config('app.languages') as $key => $value) 
+        {
+            $data[$key . '*.title']         = 'string|required|unique:post_translations';
+            $data[$key . '*.content']       = 'nullable|string';
+            $data[$key . '*.small_desc']    = 'nullable|string';
+            $data[$key . '*.tags']          = 'nullable|string';
+            
+        }
         $post =  Post::create($request->except('main_img', '_token'));
         if ($request->file('main_img')) {
             $filename = $this->upload($request->file('main_img'),'posts');
@@ -80,6 +92,19 @@ class PostController extends Controller
     public function update(Request $request, Post $post)
     {
         $this->authorize('update' , $post);
+        $data = 
+        [
+            'main_img' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ];
+        //validate data for lang
+        foreach (config('app.languages') as $key => $value) 
+        {
+            $data[$key . '*.title']         = 'string|required|unique:post_translations,title,'.$post->id;
+            $data[$key . '*.content']       = 'nullable|string';
+            $data[$key . '*.small_desc']    = 'nullable|string';
+            $data[$key . '*.tags']          = 'nullable|string';
+            
+        }
         $post->update($request->except('main_img', '_token','_method'));
         //update category main_img code
         if ($request->file('main_img')) {

@@ -21,7 +21,8 @@ class MainController extends Controller
         $categories_count = Category::count();
         $posts_count = Post::count();
         $users_count = User::count();
-        return view('dashboard.index',compact('categories_count','posts_count','users_count'));
+        $admins_count = User::where('status','admin')->count();
+        return view('dashboard.index',compact('categories_count','posts_count','users_count','admins_count'));
     }
     
     

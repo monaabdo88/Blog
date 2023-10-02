@@ -77,5 +77,6 @@ return [
     'main_category' => 'Main Category',
     'post'      => 'Post',
     'content'   => 'Content',
-    'author'    => 'Author'
+    'author'    => 'Author',
+    'admins'    =>'Admins'
 ];

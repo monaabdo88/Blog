@@ -43,8 +43,20 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $this->authorize('create', $this->setting);
+        $data = 
+        [
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ];
+        //validate data for lang
+        foreach (config('app.languages') as $key => $value) 
+        {
+            $data[$key . '*.title']         = 'string|required|unique:category_translations';
+            $data[$key . '*.description']   = 'nullable|string';
+        }
+        $validatedData = $request->validate($data);
         $category =  Category::create($request->except('thumbnail', '_token'));
-        if ($request->file('thumbnail')) {
+        if ($request->file('thumbnail')) 
+        {
             $filename = $this->upload($request->file('thumbnail'),'categories');
             $category->update(['thumbnail' => $filename]);
         }
@@ -77,6 +89,16 @@ class CategoryController extends Controller
     public function update(Request $request, Category $category)
     {
         $this->authorize('update', $this->setting);
+        $data = 
+        [
+            'thumbnail' => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048'
+        ];
+        //validate data for lang
+        foreach (config('app.languages') as $key => $value) 
+        {
+            $data[$key . '*.title']         = 'string|required|unique:category_translations,title,'.$category->id;
+            $data[$key . '*.description']   = 'nullable|string';
+        }
         $category->update($request->except('thumbnail', '_token','_method'));
         //update category thumbnail code
         if ($request->file('thumbnail')) {

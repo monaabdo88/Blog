@@ -60,21 +60,22 @@
                         <a href="{{ route('dashboard.users.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
                     </div>
                 </div>
+                {{-- Admins --}}
+                <div class="col-lg-3 col-xs-6">
+                    <div class="small-box bg-yellow">
+                        <div class="inner">
+                            <h3>{{$admins_count}}</h3>
 
-                
+                            <p>@lang('site.admins')</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fa fa-user"></i>
+                        </div>
+                        <a href="{{ route('dashboard.users.index') }}" class="small-box-footer">@lang('site.read') <i class="fa fa-arrow-circle-right"></i></a>
+                    </div>
+                </div>
 
             </div><!-- end of row -->
-
-            <div class="box box-solid">
-
-                <div class="box-header">
-                    <h3 class="box-title">Sales Graph</h3>
-                </div>
-                <div class="box-body border-radius-none">
-                    <div class="chart" id="line-chart" style="height: 250px;"></div>
-                </div>
-                <!-- /.box-body -->
-            </div>
 
         </section><!-- end of content -->
 

@@ -1,5 +1,5 @@
 @extends('site.layouts.app')
-@section('content')
+@section('body')
 <link href="{{ asset('site/css/app.css') }}" rel="stylesheet">
 <div class="content-wrapper up-container">
 

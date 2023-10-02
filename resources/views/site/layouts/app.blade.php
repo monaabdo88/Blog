@@ -1,173 +1,196 @@
 <!DOCTYPE html>
 <html lang="en">
-<head lang="en">
-    <meta charset="UTF-8">
-    <meta name="description" content="{{ $setting->site_desc}}">
-    <meta name="keywords" content="{{$setting->site_keywords}}">
-    <meta name="author" content="monaabdo">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-    <title>{{$setting->site_name}}</title>
-    <link rel="stylesheet" href="{{asset('admin/vendors/datatables.net-bs4/css/dataTables.bootstrap4.min.css')}}">
-    <link rel="stylesheet" href="{{asset('admin/vendors/datatables.net-buttons-bs4/css/buttons.bootstrap4.min.css')}}">
 
-    <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/fonts.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/crumina-fonts.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/normalize.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/grid.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/styles.css')}}">
-    <link rel="stylesheet" href="{{asset('css/toastr.min.css')}}">
-    <!--Plugins styles-->
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/jquery.mCustomScrollbar.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/swiper.min.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/primary-menu.css')}}">
-    <link rel="stylesheet" type="text/css" href="{{asset('site/css/magnific-popup.css')}}">
+<head>
+    <meta charset="utf-8">
+    <title> @yield('title' , $setting->translate(app()->getlocale())->site_name)</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta name ="description", content="@yield('meta_description',  $setting->site_desc)">
+    <meta name ="keywords", content="@yield('meta_keywords',  $setting->site_keywords )">
+    <!-- Favicon -->
+    <link href="{{ asset($setting->favicon) }}" rel="icon">
 
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700;900&display=swap" rel="stylesheet">
 
-    <!--Styles for RTL-->
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
 
-    <!--<link rel="stylesheet" type="text/css" href="site/css/rtl.css">-->
+    <!-- Libraries Stylesheet -->
+    <link href="{{ asset('front') }}/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
 
-    <!--External fonts-->
-
-    <link href='https://fonts.googleapis.com/css?family=Varela+Round' rel='stylesheet' type='text/css'>
-    <style>
-        .padded-50{
-            padding: 40px;
-        }
-        .text-center{
-            text-align: center;
-        }
-        .up-container{
-            position: relative;z-index: -1;
-        }
-    </style>
-     @if($setting->site_status == 'close')
-        <div class="alert alert-danger col-md-offset-2 col-md-8" style="margin-top:20%">
-            <p class="text-center"><b>{{ $setting->site_msg_close }}</b></p>
-        </div>
-        {{die()}}
-    @endif
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{{ asset('front') }}/css/style.css" rel="stylesheet">
 </head>
 
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid">
+        <div class="row align-items-center bg-light px-lg-5">
+            <div class="col-12 col-md-8">
+                <div class="d-flex justify-content-between">
+                    <div class="bg-primary text-white text-center py-2" style="width: 100px;">Tranding</div>
+                    <div class="owl-carousel owl-carousel-1 tranding-carousel position-relative d-inline-flex align-items-center ml-3"
+                        style="width: calc(100% - 100px); padding-left: 90px;">
+                        @foreach ($lastFivePosts as $post)
+                            <div class="text-truncate"><a class="text-secondary" href="{{Route('post',$post->id)}}">{{ $post->title }}</a></div>
+                        @endforeach
 
-<body class=" ">
-
-<div class="content-wrapper">
-    @include('site.includes.header')
-    @yield('content')
-    @include('site.includes.subscribe')
-</div>
-
-
-
-<!-- Footer -->
-
-@include('site.includes.footer')
-<!-- End Footer -->
-
-<svg style="display:none;">
-    <symbol id="arrow-left" viewBox="122.9 388.2 184.3 85">
-        <path d="M124.1,431.3c0.1,2,1,3.8,2.4,5.2c0,0,0.1,0.1,0.1,0.1l34.1,34.1c1.6,1.6,3.7,2.5,5.9,2.5s4.3-0.9,5.9-2.4
-		c1.6-1.6,2.4-3.7,2.4-5.9s-0.9-3.9-2.4-5.5l-19.9-19.5h11.1c1.5,0,2.7-1.5,2.7-3c0-1.5-1.2-3-2.7-3h-17.6c-1.1,0-2.1,0.6-2.5,1.6
-		c-0.4,1-0.2,2.1,0.6,2.9l24.4,24.4c0.6,0.6,0.9,1.3,0.9,2.1s-0.3,1.6-0.9,2.1c-0.6,0.6-1.3,0.9-2.1,0.9s-1.6-0.3-2.1-0.9
-		l-34.2-34.2c0,0,0,0,0,0c-0.6-0.6-0.8-1.4-0.9-1.9c0,0,0,0,0,0c0-0.2,0-0.4,0-0.6c0.1-0.6,0.3-1.1,0.7-1.6c0-0.1,0.1-0.1,0.2-0.2
-		l34.1-34.1c0.6-0.6,1.3-0.9,2.1-0.9s1.6,0.3,2.1,0.9c0.6,0.6,0.9,1.3,0.9,2.1s-0.3,1.6-0.9,2.1l-24.4,24.4c-0.8,0.8-1,2-0.6,3
-		c0.4,1,1.4,1.7,2.5,1.7h125.7c1.5,0,2.7-1,2.7-2.5c0-1.5-1.2-2.5-2.7-2.5H152.6l19.9-20.1c1.6-1.6,2.4-3.8,2.4-6s-0.9-4.4-2.4-6
-		c-1.6-1.6-3.7-2.5-5.9-2.5s-4.3,0.9-5.9,2.4l-34.1,34.1c-0.2,0.2-0.3,0.3-0.5,0.5c-1.1,1.2-1.8,2.8-2,4.4
-		C124.1,430.2,124.1,430.8,124.1,431.3C124.1,431.3,124.1,431.3,124.1,431.3z"></path>
-        <path d="M283.3,427.9h14.2c1.7,0,3,1.3,3,3c0,1.7-1.4,3-3,3H175.1c-1.5,0-2.7,1.5-2.7,3c0,1.5,1.2,3,2.7,3h122.4
-		c4.6,0,8.4-3.9,8.4-8.5c0-4.6-3.8-8.5-8.4-8.5h-14.2c-1.5,0-2.7,1-2.7,2.5C280.7,426.9,281.8,427.9,283.3,427.9z"></path>
-    </symbol>
-    <symbol id="arrow-right" viewBox="122.9 388.2 184.3 85">
-        <path d="M305.9,430.2c-0.1-2-1-3.8-2.4-5.2c0,0-0.1-0.1-0.1-0.1l-34.1-34.1c-1.6-1.6-3.7-2.5-5.9-2.5c-2.2,0-4.3,0.9-5.9,2.4
-		c-1.6,1.6-2.4,3.7-2.4,5.9s0.9,4.1,2.4,5.7l19.9,19.6h-11.1c-1.5,0-2.7,1.5-2.7,3c0,1.5,1.2,3,2.7,3h17.6c1.1,0,2.1-0.7,2.5-1.7
-		c0.4-1,0.2-2.2-0.6-2.9l-24.4-24.5c-0.6-0.6-0.9-1.3-0.9-2.1s0.3-1.6,0.9-2.1c0.6-0.6,1.3-0.9,2.1-0.9c0.8,0,1.6,0.3,2.1,0.9
-		l34.2,34.2c0,0,0,0,0,0c0.6,0.6,0.8,1.4,0.9,1.9c0,0,0,0,0,0c0,0.2,0,0.4,0,0.6c-0.1,0.6-0.3,1.1-0.7,1.6c0,0.1-0.1,0.1-0.2,0.2
-		l-34.1,34.1c-0.6,0.6-1.3,0.9-2.1,0.9s-1.6-0.3-2.1-0.9c-0.6-0.6-0.9-1.3-0.9-2.1s0.3-1.6,0.9-2.1l24.4-24.4c0.8-0.8,1-1.9,0.6-2.9
-		c-0.4-1-1.4-1.6-2.5-1.6H158.1c-1.5,0-2.7,1-2.7,2.5c0,1.5,1.2,2.5,2.7,2.5h119.3l-19.9,20c-1.6,1.6-2.4,3.7-2.4,6s0.9,4.4,2.4,5.9
-		c1.6,1.6,3.7,2.5,5.9,2.5s4.3-0.9,5.9-2.4l34.1-34.1c0.2-0.2,0.3-0.3,0.5-0.5c1.1-1.2,1.8-2.8,2-4.4
-		C305.9,431.3,305.9,430.8,305.9,430.2C305.9,430.2,305.9,430.2,305.9,430.2z"></path>
-        <path d="M146.7,433.9h-14.2c-1.7,0-3-1.3-3-3c0-1.7,1.4-3,3-3h122.4c1.5,0,2.7-1.5,2.7-3c0-1.5-1.2-3-2.7-3H132.4
-		c-4.6,0-8.4,3.9-8.4,8.5c0,4.6,3.8,8.5,8.4,8.5h14.2c1.5,0,2.7-1,2.7-2.5C149.3,434.9,148.1,433.9,146.7,433.9z"></path>
-    </symbol>
-    <symbol id="to-top" viewBox="0 0 32 32">
-        <path d="M17,22 L25.0005601,22 C27.7616745,22 30,19.7558048 30,17 C30,14.9035809 28.7132907,13.1085075 26.8828633,12.3655101
-         L26.8828633,12.3655101 C26.3600217,9.87224935 24.1486546,8 21.5,8 C20.6371017,8 19.8206159,8.19871575 19.0938083,8.55288165
-         C17.8911816,6.43144875 15.6127573,5 13,5 C9.13400656,5 6,8.13400656 6,12 C6,12.1381509 6.00400207,12.275367 6.01189661,12.4115388
-          L6.01189661,12.4115388 C4.23965876,13.1816085 3,14.9491311 3,17 C3,19.7614237 5.23249418,22 7.99943992,22 L16,22 L16,16 L12.75,19.25
-           L12,18.5 L16.5,14 L21,18.5 L20.25,19.25 L17,16 L17,22 L17,22 Z M16,22 L16,27 L17,27 L17,22 L16,22 L16,22 Z" id="cloud-upload"></path>
-    </symbol>
-
-</svg>
-
-<!-- Overlay Search -->
-
-<div class="overlay_search">
-    <div class="container">
-        <div class="row">
-            <div class="form_search-wrap">
-                <form method="get" action="{{url('/results/')}}">
-                    <input class="overlay_search-input" name="query" required placeholder="Type and hit Enter..." type="text">
-                    <a href="#" class="overlay_search-close">
-                        <span></span>
-                        <span></span>
-                    </a>
-                </form>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 text-right d-none d-md-block">
+                {{ Date('D Y,M,d') }}
+            </div>
+        </div>
+        <div class="row align-items-center py-2 px-lg-5">
+            <div class="col-lg-4">
+                <a href="{{route('index')}}" class="navbar-brand d-none d-lg-block">
+                    <img src="{{ asset($setting->logo) }}" alt="">
+                </a>
+            </div>
+            <div class="col-lg-8 text-center text-lg-right">
+                <img class="img-fluid" src="{{ asset($setting->logo) }}" alt="">
             </div>
         </div>
     </div>
-</div>
+    <!-- Topbar End -->
 
-<!-- End Overlay Search -->
 
-<!-- JS Script -->
-<script src="{{ asset('js/app.js') }}"></script>
-<script src="{{asset('js/toastr.min.js')}}"></script>
-<script src="{{asset('site/js/jquery-2.1.4.min.js')}}"></script>
-<script src="{{asset('site/js/crum-mega-menu.js')}}"></script>
-<script src="{{asset('site/js/swiper.jquery.min.js')}}"></script>
-<script src="{{asset('site/js/theme-plugins.js')}}"></script>
-<script src="{{asset('site/js/main.js')}}"></script>
-<script src="{{asset('site/js/velocity.min.js')}}"></script>
-<script src="{{asset('site/js/ScrollMagic.min.js')}}"></script>
-<script src="{{asset('site/js/animation.velocity.min.js')}}"></script>
-<!-- ...end JS Script -->
-        <!-- Go to www.addthis.com/dashboard to customize your tools -->
-<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5ae6dba92643de0c"></script>
-<script src="{{asset('js/toastr.min.js')}}"></script>
-@if(Session()->has('success'))
-    <script>
-        toastr.success('{{Session()->get('success')}}');
-    </script>
-@endif
-@if(Session()->has('error_msg'))
-    <script>
-        toastr.error('{{Session()->get('error_msg')}}');
-    </script>
-@endif
-@if (count($errors) > 0)
-    @foreach($errors->all() as $error)
-        <script>
-            toastr.error('{{$error}}');
-        </script>
-    @endforeach
-@endif
-<script src="{{asset('/vendor/unisharp/laravel-ckeditor/ckeditor.js')}}"></script>
-<script>
-    CKEDITOR.replace( 'about' );
-    CKEDITOR.replace( 'desc' );
-    function preview_image(event)
-    {
-        var reader = new FileReader();
-        reader.onload = function()
-        {
-            var output = document.getElementById('output_image');
-            output.src = reader.result;
-        }
-        reader.readAsDataURL(event.target.files[0]);
-    }
-</script>
-@yield('script')
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0 mb-3">
+        <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
+            <a href="" class="navbar-brand d-block d-lg-none">
+                <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+                    <a href="{{route('index')}}" class="nav-item nav-link active">{{ __('site.home') }}</a>
+                    @foreach ($categories as $category)
+                        <div class="nav-item dropdown">
+                            <a  @if (count($category->children) == 0) href="{{Route('category',$category->id)}}" @else href='#' @endif class="nav-link  @if (count($category->children) > 0) dropdown-toggle  @endif"
+                                @if(count($category->children) > 0)  data-toggle="dropdown" @endif
+                                 >{{ $category->title }}</a>
+                            @if (count($category->children) > 0)
+                                <div class="dropdown-menu rounded-0 m-0">
+                                    @foreach ($category->children as $child)
+                                        <a href="{{Route('category',$child->id)}}" class="dropdown-item">{{ $child->title }}</a>
+                                    @endforeach
+
+
+                                </div>
+                            @endif
+                        </div>
+                    @endforeach
+
+
+
+
+
+
+                  
+                </div>
+
+
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button"
+                        aria-haspopup="true" aria-expanded="false">
+                        <span class="hidden-md-down">{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+
+                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                            <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}"
+                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
+                                {{ $properties['native'] }}
+                            </a>
+                        @endforeach
+
+                    </div>
+                </li>
+
+
+
+                
+                <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
+                    <input type="text" class="form-control" placeholder="Keyword">
+                    <div class="input-group-append">
+                        <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+    @yield('body')
+
+
+
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-light pt-5 px-sm-3 px-md-5">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 mb-5">
+                <a href="index.html" class="navbar-brand">
+                    <img src="{{ asset($setting->logo) }}" alt="" style="height: 70px">
+                </a>
+                <p>{{ $setting->translate(app()->getlocale())->content }}</p>
+                <div class="d-flex justify-content-start mt-4">
+
+                    @if ($setting->facebook != '')
+                        <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;"
+                            href="{{ $setting->facebook }}"><i class="fab fa-facebook-f"></i></a>
+                    @endif
+
+                    @if ($setting->twitter != '')
+                        <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;"
+                            href="{{ $setting->twitter }}"><i class="fab fa-twitter"></i></a>
+                    @endif
+
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 mb-5">
+                <h4 class="font-weight-bold mb-4">{{ __('site.categories') }}</h4>
+                <div class="d-flex flex-wrap m-n1">
+                    @foreach ($categories as $category)
+                        <a href="{{Route('category',$category->id)}}" class="btn btn-sm btn-outline-secondary m-1">{{ $category->title }}</a>
+                    @endforeach
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4 px-sm-3 px-md-5">
+        <p class="m-0 text-center">
+            &copy; <a class="font-weight-bold" href="#">{{ $setting->site_name }} </a>{{ $setting->site_copyrights }}
+
+            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+            Designed by <a class="font-weight-bold" href="{{ Route('index') }}">{{ $setting->site_name }}</a>
+        </p>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-dark back-to-top"><i class="fa fa-angle-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ asset('front') }}/lib/easing/easing.min.js"></script>
+    <script src="{{ asset('front') }}/lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="{{ asset('front') }}/mail/jqBootstrapValidation.min.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="{{ asset('front') }}/js/main.js"></script>
 </body>
+
 </html>
