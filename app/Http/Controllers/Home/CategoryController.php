@@ -11,7 +11,7 @@ class CategoryController extends Controller
     public function show(Category $category)
     {
         $category = $category->load('children');
-        $posts = Post::where('category_id' , $category->id)->paginate(15);
+        $posts = Post::where('category_id' , $category->id)->paginate(8);
         
         return view('site.category' , compact('category','posts'));
     }

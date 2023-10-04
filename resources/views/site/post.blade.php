@@ -3,7 +3,7 @@
         {{ strip_tags($post->content)}}
 @endsection
 @section('meta_keywords')
-        الكلمات الدلالية
+        {{ strip_tags($post->tags)}}
 @endsection
 
 @section('title')
@@ -42,7 +42,7 @@
                         </div>
                         <div>
                             <h3 class="mb-3">{{$post->title}}</h3>
-                            <p>{!! $post->smallDesc !!}</p>
+                            <p>{!! $post->small_desc !!}</p>
                             <p>{!! $post->content !!}</p>
                         </div>
                     </div>

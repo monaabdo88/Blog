@@ -1,13 +1,23 @@
 @extends('site.layouts.app')
 
 @section('body')
-<div class="container">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card">
-                <div class="card-header">{{ __('Confirm Password') }}</div>
+<div class="container-fluid py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
+                            <h3 class="m-0 text-center">{{ __('site.reset_password') }}</h3>
+                        </div>
+                    </div>
 
-                <div class="card-body">
+
+                </div>
+
+                
+                            <div class="col-md-8 offset-md-2">
+                                @include('partials._errors')
                     {{ __('Please confirm your password before continuing.') }}
 
                     <form method="POST" action="{{ route('password.confirm') }}">
@@ -42,8 +52,11 @@
                         </div>
                     </form>
                 </div>
+                                
+                           
             </div>
-        </div>
-    </div>
+
+</div>
+</div>
 </div>
 @endsection

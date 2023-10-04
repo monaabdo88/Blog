@@ -86,5 +86,7 @@ return [
     'design_by'=> 'Designed by',
     'forget'    => 'Forget your Password ?',
     'profile'   => 'Profile',
-    'add_post'  => 'Add Post'
+    'add_post'  => 'Add Post',
+    'send_password' => 'Send Password Reset Link',
+    'reset_password'    => 'Reset Password'
 ];

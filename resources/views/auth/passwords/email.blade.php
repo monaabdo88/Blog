@@ -2,13 +2,23 @@
 
 @section('body')
 <link href="{{ asset('site/css/app.css') }}" rel="stylesheet">
-<div class="container up-container">
-    <div class="row">
-        <div class="col-md-8 col-md-offset-2">
-            <div class="panel panel-default">
-                <div class="panel-heading">Reset Password</div>
+<div class="container-fluid py-3">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
+                            <h3 class="m-0 text-center">{{ __('site.reset_password') }}</h3>
+                        </div>
+                    </div>
 
-                <div class="panel-body">
+
+                </div>
+
+                
+                            <div class="col-md-8 offset-md-2">
+                                @include('partials._errors')
                     @if (session('status'))
                         <div class="alert alert-success">
                             {{ session('status') }}
@@ -21,7 +31,7 @@
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="col-md-4 control-label">E-Mail Address</label>
 
-                            <div class="col-md-6">
+                            <div class="col-md-12">
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required>
 
                                 @if ($errors->has('email'))
@@ -35,14 +45,17 @@
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">
                                 <button type="submit" class="btn btn-primary">
-                                    Send Password Reset Link
+                                    {{ __('site.send_password') }}
                                 </button>
                             </div>
                         </div>
                     </form>
                 </div>
+                                
+                           
             </div>
-        </div>
-    </div>
+
+</div>
+</div>
 </div>
 @endsection

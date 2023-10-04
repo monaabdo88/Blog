@@ -6,6 +6,8 @@ use Illuminate\Support\ServiceProvider;
 use App\Models\Setting;
 use App\Models\Category;
 use App\Models\Post;
+use Illuminate\Pagination\Paginator;
+
 class AppServiceProvider extends ServiceProvider
 {
     /**
@@ -21,6 +23,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        Paginator::useBootstrap();
         $settings = Setting::checkSettings();
         $categories = Category::with('children')->where('parent_id' , 0)->orWhere('parent_id' , null)->orWhere('status',1)->get();
         $lastFivePosts = Post::with('category','user')->orderBy('id')->limit(5)->get();
