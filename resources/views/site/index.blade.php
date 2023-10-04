@@ -43,7 +43,7 @@
             <div class="col-lg-4">
                 <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
                     <h3 class="m-0">{{ __('site.categories') }}</h3>
-                    <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                    <a class="text-secondary font-weight-medium text-decoration-none" href="">{{ __('site.view_all') }} </a>
                 </div>
                 @foreach ($categories as $category)
                 <div class="position-relative overflow-hidden mb-3" style="height: 80px;">
@@ -82,9 +82,9 @@
                         
                    
                     <div class="position-relative">
-                        <img class="img-fluid w-100" src="{{asset('uploads/posts/'.$post->main_img)}}" style="object-fit: cover;">
+                        <img class="img-fluid img-responsive" src="{{asset('uploads/posts/'.$post->main_img)}}" style="object-fit: cover;height:172px">
                         <div class="overlay position-relative bg-light">
-                            <div class="mb-2" style="font-size: 13px;">
+                            <div class="mb-2" style="font-size: 10px;">
                                 <a href="{{Route('category',$category->id)}}">{{$category->title}}</a>
                                 <span class="px-1">/</span>
                                 <span>{{$post->created_at->format('Y, M-d')}}</span>

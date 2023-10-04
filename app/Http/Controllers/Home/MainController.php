@@ -10,7 +10,7 @@ class MainController extends Controller
     public function index()
     {
         $categories_with_posts = Category::with(['posts'=>function ($q){
-            $q->limit(2);
+            $q->limit(5);
         }])->get();
        return view('site.index' , compact('categories_with_posts'));
     }

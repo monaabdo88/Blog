@@ -59,123 +59,11 @@
 
 
     <!-- Navbar Start -->
-    <div class="container-fluid p-0 mb-3">
-        <nav class="navbar navbar-expand-lg bg-light navbar-light py-2 py-lg-0 px-lg-5">
-            <a href="" class="navbar-brand d-block d-lg-none">
-                <h1 class="m-0 display-5 text-uppercase"><span class="text-primary">News</span>Room</h1>
-            </a>
-            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
-                <div class="navbar-nav mr-auto py-0">
-                    <a href="{{route('index')}}" class="nav-item nav-link active">{{ __('site.home') }}</a>
-                    @foreach ($categories as $category)
-                        <div class="nav-item dropdown">
-                            <a  @if (count($category->children) == 0) href="{{Route('category',$category->id)}}" @else href='#' @endif class="nav-link  @if (count($category->children) > 0) dropdown-toggle  @endif"
-                                @if(count($category->children) > 0)  data-toggle="dropdown" @endif
-                                 >{{ $category->title }}</a>
-                            @if (count($category->children) > 0)
-                                <div class="dropdown-menu rounded-0 m-0">
-                                    @foreach ($category->children as $child)
-                                        <a href="{{Route('category',$child->id)}}" class="dropdown-item">{{ $child->title }}</a>
-                                    @endforeach
-
-
-                                </div>
-                            @endif
-                        </div>
-                    @endforeach
-
-
-
-
-
-
-                  
-                </div>
-
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle nav-link" data-toggle="dropdown" href="#" role="button"
-                        aria-haspopup="true" aria-expanded="false">
-                        <span class="hidden-md-down">{{ LaravelLocalization::getCurrentLocaleNative() }}</span>
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-
-                        @foreach (LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
-                            <a class="dropdown-item" rel="alternate" hreflang="{{ $localeCode }}"
-                                href="{{ LaravelLocalization::getLocalizedURL($localeCode, null, [], true) }}">
-                                {{ $properties['native'] }}
-                            </a>
-                        @endforeach
-
-                    </div>
-                </li>
-
-
-
-                
-                <div class="input-group ml-auto" style="width: 100%; max-width: 300px;">
-                    <input type="text" class="form-control" placeholder="Keyword">
-                    <div class="input-group-append">
-                        <button class="input-group-text text-secondary"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </div>
+    @include('site.includes.navbar')
     <!-- Navbar End -->
 
     @yield('body')
-
-
-
-
-
-    <!-- Footer Start -->
-    <div class="container-fluid bg-light pt-5 px-sm-3 px-md-5">
-        <div class="row">
-            <div class="col-lg-6 col-md-6 mb-5">
-                <a href="index.html" class="navbar-brand">
-                    <img src="{{ asset($setting->logo) }}" alt="" style="height: 70px">
-                </a>
-                <p>{{ $setting->translate(app()->getlocale())->content }}</p>
-                <div class="d-flex justify-content-start mt-4">
-
-                    @if ($setting->facebook != '')
-                        <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;"
-                            href="{{ $setting->facebook }}"><i class="fab fa-facebook-f"></i></a>
-                    @endif
-
-                    @if ($setting->twitter != '')
-                        <a class="btn btn-outline-secondary text-center mr-2 px-0" style="width: 38px; height: 38px;"
-                            href="{{ $setting->twitter }}"><i class="fab fa-twitter"></i></a>
-                    @endif
-
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 mb-5">
-                <h4 class="font-weight-bold mb-4">{{ __('site.categories') }}</h4>
-                <div class="d-flex flex-wrap m-n1">
-                    @foreach ($categories as $category)
-                        <a href="{{Route('category',$category->id)}}" class="btn btn-sm btn-outline-secondary m-1">{{ $category->title }}</a>
-                    @endforeach
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid py-4 px-sm-3 px-md-5">
-        <p class="m-0 text-center">
-            &copy; <a class="font-weight-bold" href="#">{{ $setting->site_name }} </a>{{ $setting->site_copyrights }}
-
-            <!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
-            Designed by <a class="font-weight-bold" href="{{ Route('index') }}">{{ $setting->site_name }}</a>
-        </p>
-    </div>
-    <!-- Footer End -->
-
-
+    @include('site.includes.footer')
     <!-- Back to Top -->
     <a href="#" class="btn btn-dark back-to-top"><i class="fa fa-angle-up"></i></a>
 
@@ -191,6 +79,9 @@
 
     <!-- Template Javascript -->
     <script src="{{ asset('front') }}/js/main.js"></script>
+    {{--preview image js--}}
+    <script src="{{ asset('dashboard/js/custom/image_preview.js') }}"></script>
+
 </body>
 
 </html>

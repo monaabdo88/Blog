@@ -7,16 +7,19 @@
 @endsection
 
 @section('title')
-{{$category->title}} - {{$setting->title}}
+{{$category->title}} - {{$setting->site_name}}
 @endsection
 @section('body')
     <!-- Breadcrumb Start -->
     <div class="container-fluid">
         <div class="container">
             <nav class="breadcrumb bg-transparent m-0 p-0">
-                <a class="breadcrumb-item" href="#">Home</a>
-                <a class="breadcrumb-item" href="#">Category</a>
-                <span class="breadcrumb-item active">Technology</span>
+                <a class="breadcrumb-item" href="{{ route('index') }}">{{ __('site.home') }}</a>
+                @if(isset($category->parents->id))
+                    <a class="breadcrumb-item" href="{{ route('category',$category->parents->id) }}">{{ $category->parents->title }}</a>
+                @endif
+                <a class="breadcrumb-item" href="{{ route('category',$category->id) }}">{{ $category->title }}</a>
+                <span class="breadcrumb-item active">{{ __('site.categories') }}</span>
             </nav>
         </div>
     </div>
@@ -31,20 +34,20 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="d-flex align-items-center justify-content-between bg-light py-2 px-4 mb-3">
-                                <h3 class="m-0">Technology</h3>
-                                <a class="text-secondary font-weight-medium text-decoration-none" href="">View All</a>
+                                <h3 class="m-0">{{ __('site.categories') }}</h3>
+                                <a class="text-secondary font-weight-medium text-decoration-none" href="">{{ __('site.view_all') }}</a>
                             </div>
                         </div>
 
                         @foreach ($category->children as $category)
                             <div class="col-lg-4">
                                 <div class="position-relative mb-3">
-                                    <img class="img-fluid w-100" src="{{asset($category->image)}}" style="object-fit: cover;">
+                                    <img class="img-fluid w-100" src="{{asset('uploads/categories/'.$category->thumbnail)}}" style="object-fit: cover;">
                                     <div class="overlay position-relative bg-light">
                                         <div class="mb-2" style="font-size: 14px;">
-                                            <a href="">{{$category->title}}</a>
+                                            <a href="{{ route('category',$category->id) }}">{{$category->title}}</a>
                                         </div>
-                                        <a class="h4" href="">{{$category->title}}</a>
+                                        <a class="h4" href="{{ route('category',$category->id) }}">{{$category->title}}</a>
                                         <p class="m-0"></p>
                                     </div>
                                 </div>
@@ -61,7 +64,7 @@
                         @foreach ($posts as $post)
                             <div class="col-lg-6">
                                 <div class="d-flex mb-3">
-                                    <img src="{{asset($post->image)}}"
+                                    <img src="{{asset('uploads/posts/'.$post->main_img)}}"
                                         style="width: 100px; height: 100px; object-fit: cover;">
                                     <div class="w-100 d-flex flex-column justify-content-center bg-light px-3"
                                         style="height: 100px;">

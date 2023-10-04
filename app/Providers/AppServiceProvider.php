@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
     public function boot(): void
     {
         $settings = Setting::checkSettings();
-        $categories = Category::with('children')->where('parent_id' , 0)->orWhere('parent_id' , null)->get();
+        $categories = Category::with('children')->where('parent_id' , 0)->orWhere('parent_id' , null)->orWhere('status',1)->get();
         $lastFivePosts = Post::with('category','user')->orderBy('id')->limit(5)->get();
         View()->share([
             'setting'=>$settings,

@@ -1,6 +1,6 @@
 @extends('site.layouts.app')
 
-@section('content')
+@section('body')
 <link href="{{ asset('site/css/app.css') }}" rel="stylesheet">
 <div class="container up-container">
     <div class="row">

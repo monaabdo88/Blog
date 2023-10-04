@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use \Illuminate\Support\Str;
 use File;
+use Illuminate\Support\Facades\Hash;
 use Yajra\DataTables\DataTables;
 use App\Http\Trait\UploadImage;
 class UserController extends Controller
@@ -65,7 +66,7 @@ class UserController extends Controller
             'avatar'        => $filename,
             'status'        => $request->status,
             'email'         => $request->email,
-            'password'      => bcrypt($request->password),
+            'password'      => Hash::make($data['password']),
         ]);
         session()->flash('success', __('site.added_successfully'));
             
@@ -109,7 +110,7 @@ class UserController extends Controller
         //check & update password
         if($request->password)
         {
-            $password = bcrypt($request->password);
+            $password = Hash::make($data['password']);
             $user->update(['password'=> $password]);
         }
         //check & update avatar

@@ -1,4 +1,4 @@
-@extends('website.layout.layout')
+@extends('site.layouts.app')
 @section('meta_description')
         {{ strip_tags($post->content)}}
 @endsection
@@ -7,7 +7,7 @@
 @endsection
 
 @section('title')
-{{$post->title}} - {{$setting->title}}
+{{$post->title}} - {{$setting->site_name}}
 @endsection
 
 
@@ -16,10 +16,10 @@
  <div class="container-fluid">
     <div class="container">
         <nav class="breadcrumb bg-transparent m-0 p-0">
-            <a class="breadcrumb-item" href="#">Home</a>
-            <a class="breadcrumb-item" href="#">Category</a>
-            <a class="breadcrumb-item" href="#">Technology</a>
-            <span class="breadcrumb-item active">News Title</span>
+            <a class="breadcrumb-item" href="{{ route('index') }}">{{ __('site.home') }}</a>
+            <a class="breadcrumb-item" href="{{ route('category',$post->category->parents->id) }}">{{ $post->category->parents->title }}</a>
+            <a class="breadcrumb-item" href="{{ route('category',$post->category->id) }}">{{ $post->category->title }}</a>
+            <span class="breadcrumb-item active">{{ $post->title }}</span>
         </nav>
     </div>
 </div>
@@ -33,7 +33,7 @@
             <div class="col-lg-12">
                 <!-- News Detail Start -->
                 <div class="position-relative mb-3">
-                    <img class="img-fluid w-100" src="{{asset($post->image)}}" style="object-fit: cover;">
+                    <img class="img-fluid w-100" src="{{asset('uploads/posts/'.$post->main_img)}}" style="object-fit: cover;">
                     <div class="overlay position-relative bg-light">
                         <div class="mb-3">
                             <a href="">{{$post->category->title}}</a>

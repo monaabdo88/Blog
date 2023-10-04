@@ -8,7 +8,8 @@ use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-
+use App\Http\Trait\UploadImage;
+use File;
 class RegisterController extends Controller
 {
     /*
@@ -23,7 +24,7 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
-
+    use UploadImage;
     /**
      * Where to redirect users after registration.
      *
@@ -49,10 +50,14 @@ class RegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        return Validator::make($data, [
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'string', 'min:8', 'confirmed'],
+        
+        return Validator::make($data,[
+            'first_name'    => 'required|string',
+            'last_name'     => 'required|string',
+            'email'         => 'required|email|unique:users',
+            'phone'         => 'min:11|max:14|unique:users',
+            'avatar'        => 'nullable|image|mimes:jpg,png,jpeg,gif,svg|max:2048',
+            'password'      => 'required|confirmed',
         ]);
     }
 
@@ -64,10 +69,28 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        /*return User::create([
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
+        ]);*/
+        /**upload avatar */
+        if ($data['avatar']) {
+            $filename = $this->upload($data['avatar'],'users');
+            
+        }else{
+            $filename = 'no-img.png';
+        }
+        $user = User::create([
+            'first_name'    => $data['first_name'],
+            'last_name'     => $data['last_name'],
+            'phone'         => $data['phone'],
+            'gender'        => $data['gender'],
+            'about'         => $data['about'],
+            'avatar'        => $filename,
+            'email'         => $data['email'],
+            'password'      => Hash::make($data['password'])
         ]);
+        return $user;
     }
 }

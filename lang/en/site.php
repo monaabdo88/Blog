@@ -78,5 +78,13 @@ return [
     'post'      => 'Post',
     'content'   => 'Content',
     'author'    => 'Author',
-    'admins'    =>'Admins'
+    'admins'    =>'Admins',
+    'view_all'  => 'View All',
+    'contact_us'    => 'Contact Us',
+    'login'     => 'Login',
+    'register'  => 'Register',
+    'design_by'=> 'Designed by',
+    'forget'    => 'Forget your Password ?',
+    'profile'   => 'Profile',
+    'add_post'  => 'Add Post'
 ];
