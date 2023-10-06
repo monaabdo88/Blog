@@ -1,4 +1,5 @@
-<p align="center"><a href="https://larablog.mona-abdo.com/" target="_blank"><img src="screen.png" width="400" alt="Blog Logo"></a></p>
+<p align="center"><a href="https://larablog.mona-abdo.com/" target="_blank">
+<img src="screenshot.png" width="400" alt="Blog Logo"></a></p>
 
 
 ## About LaraBlog
