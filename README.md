@@ -1,5 +1,5 @@
 <p align="center"><a href="https://larablog.mona-abdo.com/" target="_blank"></a></p>
-<img src="https://github.com/monaabdo88/LineShop/blob/main/screenshot.png"/>
+<img src="https://github.com/monaabdo88/Blog/blob/main/screenshot.png"/>
 
 
 ## About LaraBlog
