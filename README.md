@@ -1,5 +1,4 @@
 ## About LaraBlog
-<img src="http://mona.web/uploads/projects/thumbnails/thumb_1698759962screencapture-larablog-mona-abdo-en-2023-10-31-15_45_43.png" />
 Simple Website For Laravel Framework Tricks And Tools developed by using laravel framework
 
 
