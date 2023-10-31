@@ -1,8 +1,5 @@
-<p align="center"><a href="https://larablog.mona-abdo.com/" target="_blank"></a></p>
-<img src="https://github.com/monaabdo88/Blog/blob/main/screenshot.png"/>
-
-
 ## About LaraBlog
+<img src="https://github.com/monaabdo88/Blog/blob/main/screenshot.png"/>
 
 Simple Website For Laravel Framework Tricks And Tools developed by using laravel framework
 
