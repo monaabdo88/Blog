@@ -1,6 +1,8 @@
 ## About LaraBlog
 Simple Website For Laravel Framework Tricks And Tools developed by using laravel framework
 
+## Preview
+<img src="https://mona-abdo.com/uploads/projects/1698759962screencapture-larablog-mona-abdo-en-2023-10-31-15_45_43.png" />
 
 ## Requirements
 <table>
